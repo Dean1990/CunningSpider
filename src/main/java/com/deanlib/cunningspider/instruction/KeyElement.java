@@ -1,8 +1,5 @@
 package com.deanlib.cunningspider.instruction;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-
 /**
  * 关键点
  * 这是一个描述，把与其无关的东西放到了
@@ -28,7 +25,7 @@ public class KeyElement {
     String resultAttrKey;//resultType = RESULT_TYPE_ATTR 时，需要指定要查找的属性
     KeyElement innerKeyElement;//查找可能是一个集合，下一步的操作关键点
 
-    public KeyElement(@NotNull String findType,@NotNull String value, @Nullable String findAttrKey,@NotNull String resultType,@Nullable String resultAttrKey) {
+    public KeyElement(String findType,String value,String findAttrKey,String resultType,String resultAttrKey) {
         this.value = value;
         this.findAttrKey = findAttrKey;
         this.findType = findType;
