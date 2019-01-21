@@ -1,14 +1,11 @@
 package com.deanlib.cunningspider.test;
 
 import com.alibaba.fastjson.JSON;
-import com.deanlib.cunningspider.Downloader;
 import com.deanlib.cunningspider.instruction.Action;
 import com.deanlib.cunningspider.instruction.Instruction;
 import com.deanlib.cunningspider.rule.Executor;
 import com.deanlib.cunningspider.test.instruction.ChinaZPic;
-import com.deanlib.cunningspider.test.instruction.MM131;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Test {

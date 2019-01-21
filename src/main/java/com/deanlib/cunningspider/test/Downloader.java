@@ -1,4 +1,4 @@
-package com.deanlib.cunningspider;
+package com.deanlib.cunningspider.test;
 
 import java.io.File;
 import java.io.FileOutputStream;
