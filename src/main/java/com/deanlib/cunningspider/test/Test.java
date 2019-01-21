@@ -5,6 +5,7 @@ import com.deanlib.cunningspider.instruction.Action;
 import com.deanlib.cunningspider.instruction.Instruction;
 import com.deanlib.cunningspider.rule.Executor;
 import com.deanlib.cunningspider.test.instruction.ChinaZPic;
+import com.deanlib.cunningspider.test.instruction.MM131;
 
 import java.io.IOException;
 
@@ -13,7 +14,7 @@ public class Test {
     public static void main(String[] args) {
         Executor executor = new Executor();
         try {
-            Instruction instruction = new ChinaZPic();
+            Instruction instruction = new MM131();
             executor.excute(instruction,10000);
             for (Action action : instruction.getActions()){
                 System.out.println(action.getLastResult());

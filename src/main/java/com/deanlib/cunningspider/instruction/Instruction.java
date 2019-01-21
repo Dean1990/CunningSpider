@@ -1,5 +1,7 @@
 package com.deanlib.cunningspider.instruction;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class Instruction {
     public Instruction() {
     }
 
+    @JSONField(serialize = false)
     public void addAction(Action action){
         if (actions == null) actions = new ArrayList<>();
         actions.add(action);
@@ -69,9 +72,9 @@ public class Instruction {
         return actions;
     }
 
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
-    }
+//    public void setActions(List<Action> actions) {
+//        this.actions = actions;
+//    }
 
     public String getDescription() {
         return description;
