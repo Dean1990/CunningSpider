@@ -8,10 +8,9 @@ public class ChinaZPic extends Instruction {
 
     public ChinaZPic(){
         super("chinazpic",1,"http://sc.chinaz.com/tag_tupian/DongHuaPian.html","");
-        addAction(new Action(1,new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"卡通海绵宝宝表情图片",
-                "alt",KeyElement.RESULT_TYPE_ATTR,"href"),
-                new Action(1,new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"卡通海绵宝宝表情图片",
-                "title",KeyElement.RESULT_TYPE_ATTR,"href"))));
+        addAction(new Action(1, new Action(1,new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"卡通海绵宝宝表情图片",
+                "title",KeyElement.RESULT_TYPE_ATTR,"href")),new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"卡通海绵宝宝表情图片",
+                "alt",KeyElement.RESULT_TYPE_ATTR,"href")));
 
     }
 

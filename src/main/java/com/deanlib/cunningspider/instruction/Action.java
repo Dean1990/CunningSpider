@@ -3,6 +3,7 @@ package com.deanlib.cunningspider.instruction;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,37 +13,27 @@ import java.util.List;
 public class Action {
 
     int id;
-    KeyElement keyElement;
-    @JSONField(serialize = false)
-    List<String> results;
-    int startResult;//半包半闭原则，包括start不包括end
-    int endResult;//end 小于等于start的时，表示取值到列表最后
+    List<KeyElement> keyElements;
+
     Action action;//通过链表，指定下一步的动作
+    boolean isCatalog;//指定是否是目录
 
-    public Action(int id, KeyElement keyElement) {
+    public Action(int id, KeyElement... keyElements) {
         this.id = id;
-        this.keyElement = keyElement;
+        this.keyElements = Arrays.asList(keyElements);
     }
 
-    public Action(int id, KeyElement keyElement,Action action) {
+    public Action(int id,Action action,KeyElement... keyElements) {
         this.id = id;
-        this.keyElement = keyElement;
+        this.keyElements = Arrays.asList(keyElements);
         this.action = action;
     }
 
-    public Action(int id, KeyElement keyElement, int startResult, int endResult) {
+    public Action(int id,Action action,boolean isCatalog, KeyElement... keyElements) {
         this.id = id;
-        this.keyElement = keyElement;
-        this.startResult = startResult;
-        this.endResult = endResult;
-    }
-
-    public Action(int id, KeyElement keyElement, int startResult, int endResult, Action action) {
-        this.id = id;
-        this.keyElement = keyElement;
-        this.startResult = startResult;
-        this.endResult = endResult;
+        this.keyElements = Arrays.asList(keyElements);
         this.action = action;
+        this.isCatalog = isCatalog;
     }
 
     public Action() {
@@ -57,13 +48,19 @@ public class Action {
         if (action!=null){
             return action.getLastResult();
         }
-        return getResults();
+        return keyElement.getResults();
     }
 
+    /**
+     * 返回目录级别的数据
+     * @return
+     */
     @JSONField(serialize = false)
-    public void addResult(String result){
-        if (results == null) results = new ArrayList<>();
-        results.add(result);
+    public List<List<String>> getCatalogResult(){
+        if (!isCatalog && action!=null){
+            return action.getCatalogResult();
+        }
+        return getResults();
     }
 
     public int getId() {
@@ -74,24 +71,14 @@ public class Action {
         this.id = id;
     }
 
-    public KeyElement getKeyElement() {
-        return keyElement;
+    public List<KeyElement> getKeyElements() {
+        return keyElements;
     }
 
-    public void setKeyElement(KeyElement keyElement) {
-        this.keyElement = keyElement;
+    public void setKeyElements(List<KeyElement> keyElements) {
+        this.keyElements = keyElements;
     }
 
-    public List<String> getResults() {
-        if (results!=null && startResult>=0){
-            return results.subList(startResult,endResult<= startResult?results.size():(endResult>results.size()?results.size():endResult));
-        }
-        return results;
-    }
-
-//    public void setResults(List<String> results) {
-//        this.results = results;
-//    }
 
     public Action getAction() {
         return action;
@@ -101,19 +88,11 @@ public class Action {
         this.action = action;
     }
 
-    public int getStartResult() {
-        return startResult;
+    public boolean isCatalog() {
+        return isCatalog;
     }
 
-    public void setStartResult(int startResult) {
-        this.startResult = startResult;
-    }
-
-    public int getEndResult() {
-        return endResult;
-    }
-
-    public void setEndResult(int endResult) {
-        this.endResult = endResult;
+    public void setCatalog(boolean catalog) {
+        isCatalog = catalog;
     }
 }

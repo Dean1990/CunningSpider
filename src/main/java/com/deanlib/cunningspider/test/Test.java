@@ -17,7 +17,7 @@ public class Test {
             Instruction instruction = new MM131();
             executor.excute(instruction,10000);
             for (Action action : instruction.getActions()){
-                System.out.println(action.getLastResult());
+                System.out.println(action.getCatalogResult());
                 //Downloader.download(action.getResult(),new File("C:\\Users\\Dean\\Desktop\\"),"111.jpg");
 //                Downloader.download(action.getLastResult(),new File("/Users/dean/Downloads"),"111.jpg");
             }

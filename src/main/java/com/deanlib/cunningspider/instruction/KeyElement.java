@@ -1,8 +1,14 @@
 package com.deanlib.cunningspider.instruction;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 关键点
- * 这是一个描述，把与其无关的东西放到了
+ * 这是一个描述
  * @see Action
  */
 public class KeyElement {
@@ -23,7 +29,11 @@ public class KeyElement {
     String findAttrKey;//正则 只有type = TYPE_ATTRIBUTE 时有用
     String resultType;//查找到的结果的内容类型
     String resultAttrKey;//resultType = RESULT_TYPE_ATTR 时，需要指定要查找的属性
-    KeyElement innerKeyElement;//查找可能是一个集合，下一步的操作关键点
+    List<KeyElement> keyElements;//查找可能是一个集合，下一步的操作关键点
+    @JSONField(serialize = true)
+    List<String> results;
+    int startResult;//半包半闭原则，包括start不包括end
+    int endResult;//end 小于等于start的时，表示取值到列表最后
 
     public KeyElement(String findType,String value,String findAttrKey,String resultType,String resultAttrKey) {
         this.value = value;
@@ -33,11 +43,11 @@ public class KeyElement {
         this.resultAttrKey = resultAttrKey;
     }
 
-    public KeyElement(String findType, String value, String findAttrKey, KeyElement innerKeyElement) {
+    public KeyElement(String findType, String value, String findAttrKey, KeyElement... keyElements) {
         this.findType = findType;
         this.value = value;
         this.findAttrKey = findAttrKey;
-        this.innerKeyElement = innerKeyElement;
+        this.keyElements = Arrays.asList(keyElements);
     }
 
     public KeyElement() {
@@ -83,11 +93,40 @@ public class KeyElement {
         this.resultAttrKey = resultAttrKey;
     }
 
-    public KeyElement getInnerKeyElement() {
-        return innerKeyElement;
+    public List<KeyElement> getKeyElements() {
+        return keyElements;
     }
 
-    public void setInnerKeyElement(KeyElement innerKeyElement) {
-        this.innerKeyElement = innerKeyElement;
+    public void setKeyElements(List<KeyElement> keyElements) {
+        this.keyElements = keyElements;
+    }
+
+    @JSONField(serialize = false)
+    public void addResult(String result){
+        if (results == null) results = new ArrayList<>();
+        results.add(result);
+    }
+
+    public List<String> getResults() {
+        if (results!=null && startResult>=0){
+            return results.subList(startResult,endResult<= startResult?results.size():(endResult>results.size()?results.size():endResult));
+        }
+        return results;
+    }
+
+    public int getStartResult() {
+        return startResult;
+    }
+
+    public void setStartResult(int startResult) {
+        this.startResult = startResult;
+    }
+
+    public int getEndResult() {
+        return endResult;
+    }
+
+    public void setEndResult(int endResult) {
+        this.endResult = endResult;
     }
 }

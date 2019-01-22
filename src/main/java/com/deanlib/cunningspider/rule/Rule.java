@@ -26,12 +26,12 @@ public abstract class Rule {
         Document doc = Jsoup.parse(new URL(instruction.getUrl()),timeout);
 
         for (Action action : actions) {
-            find(doc, action.getKeyElement(),action);
-            if (action.getAction()!=null && action.getResults()!=null){
+            find(doc, action.getKeyElements());
+            if (!action.isCatalog() && action.getAction()!=null && action.getResults()!=null){
                 //下一步操作
-                for (String result : action.getResults()) {
-                    if (Pattern.matches("https?:\\/\\/\\S+", result)) {
-                        excute(new Instruction(result, action.getAction()), timeout);
+                for (List<String> list : action.getResults()) {
+                    if (list!=null && list.size()>0 && Pattern.matches("https?:\\/\\/\\S+", list.get(0))) {
+                        excute(new Instruction(list.get(0), action.getAction()), timeout);
                     } else {
                         System.err.println("error url");
                     }
@@ -44,57 +44,62 @@ public abstract class Rule {
         return actions;
     }
 
-    private void find(Element element, KeyElement keyElement,Action action) {
+    private void find(Element element, List<KeyElement> keyElements) {
         System.out.print("find -> ");
-        switch (keyElement.getFindType()) {
-            case KeyElement.FIND_TYPE_ID:
-                System.out.println("id="+keyElement.getValue());
-                recursion(element.getElementById(keyElement.getValue()),keyElement,action);
-                break;
-            case KeyElement.FIND_TYPE_TAG:
-                System.out.println("tag="+keyElement.getValue());
-                recursion(element.getElementsByTag(keyElement.getValue()),keyElement,action);
-                break;
-            case KeyElement.FIND_TYPE_CLASS:
-                System.out.println("class="+keyElement.getValue());
-                recursion(element.getElementsByClass(keyElement.getValue()),keyElement,action);
-                break;
-            case KeyElement.FIND_TYPE_INDEX:
-                System.out.println("index="+keyElement.getValue());
-                recursion(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())),keyElement,action);
-                break;
-            case KeyElement.FIND_TYPE_ATTRIBUTE:
-                if (keyElement.getFindAttrKey() != null) {
-                    System.out.println("attr " + keyElement.getFindAttrKey() +"="+keyElement.getValue());
-                    recursion(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey(),keyElement.getValue()),keyElement,action);
-                }else {
-                    System.err.println("attr key is null");
-                }
+        if (keyElements!=null) {
+            for (int i = 0;i<keyElements.size();i++) {
+                KeyElement keyElement = keyElements.get(i);
+                switch (keyElement.getFindType()) {
+                    case KeyElement.FIND_TYPE_ID:
+                        System.out.println("id=" + keyElement.getValue());
+                        recursion(element.getElementById(keyElement.getValue()), keyElement);
+                        break;
+                    case KeyElement.FIND_TYPE_TAG:
+                        System.out.println("tag=" + keyElement.getValue());
+                        recursion(element.getElementsByTag(keyElement.getValue()), keyElement);
+                        break;
+                    case KeyElement.FIND_TYPE_CLASS:
+                        System.out.println("class=" + keyElement.getValue());
+                        recursion(element.getElementsByClass(keyElement.getValue()), keyElement);
+                        break;
+                    case KeyElement.FIND_TYPE_INDEX:
+                        System.out.println("index=" + keyElement.getValue());
+                        recursion(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())), keyElement);
+                        break;
+                    case KeyElement.FIND_TYPE_ATTRIBUTE:
+                        if (keyElement.getFindAttrKey() != null) {
+                            System.out.println("attr " + keyElement.getFindAttrKey() + "=" + keyElement.getValue());
+                            recursion(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey(), keyElement.getValue()), keyElement);
+                        } else {
+                            System.err.println("attr key is null");
+                        }
 
-                break;
-        }
-    }
-
-    private void recursion(Element element,KeyElement keyElement,Action action){
-        if (element!=null) {
-            Elements elements = new Elements(element);
-            recursion(elements, keyElement,action);
-        }
-    }
-
-    private void recursion(Elements elements,KeyElement keyElement,Action action){
-        if (elements != null ) {
-            for (Element element : elements) {
-                if (keyElement.getInnerKeyElement() != null) {
-                    find(element, keyElement.getInnerKeyElement(), action);
-                } else {
-                    setResult(element,keyElement, action);
+                        break;
                 }
             }
         }
     }
 
-    private void setResult(Element element, KeyElement keyElement,Action action) {
+    private void recursion(Element element,KeyElement keyElement){
+        if (element!=null) {
+            Elements elements = new Elements(element);
+            recursion(elements, keyElement);
+        }
+    }
+
+    private void recursion(Elements elements,KeyElement keyElement){
+        if (elements != null ) {
+            for (Element element : elements) {
+                if (keyElement.getKeyElements() != null) {
+                    find(element, keyElement.getKeyElements());
+                } else {
+                    setResult(element,keyElement);
+                }
+            }
+        }
+    }
+
+    private void setResult(Element element, KeyElement keyElement) {
         String result = "";
         switch (keyElement.getResultType()) {
             case KeyElement.RESULT_TYPE_HTML:
@@ -112,7 +117,7 @@ public abstract class Rule {
                 break;
         }
         System.out.println("result : " + result);
-        action.addResult(result);
+        action.addResult(keIndex,result);
     }
 
     public void otherExcute(String html,List<Action> actions){};

@@ -14,35 +14,8 @@ public class Instruction {
     String name;
     int version;
     String url;
-    List<Action> actions;
+    Step steps;
     String description;
-
-    public Instruction(String name, int version,String description) {
-        this.name = name;
-        this.version = version;
-        this.description = description;
-    }
-
-    public Instruction(String name, int version, String url, String description) {
-        this.name = name;
-        this.version = version;
-        this.url = url;
-        this.description = description;
-    }
-
-    public Instruction(String url, Action action) {
-        this.url = url;
-        addAction(action);
-    }
-
-    public Instruction() {
-    }
-
-    @JSONField(serialize = false)
-    public void addAction(Action action){
-        if (actions == null) actions = new ArrayList<>();
-        actions.add(action);
-    }
 
     public String getName() {
         return name;
@@ -68,13 +41,13 @@ public class Instruction {
         this.url = url;
     }
 
-    public List<Action> getActions() {
-        return actions;
+    public Step getSteps() {
+        return steps;
     }
 
-//    public void setActions(List<Action> actions) {
-//        this.actions = actions;
-//    }
+    public void setSteps(Step steps) {
+        this.steps = steps;
+    }
 
     public String getDescription() {
         return description;
@@ -83,5 +56,4 @@ public class Instruction {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
