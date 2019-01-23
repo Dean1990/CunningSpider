@@ -5,6 +5,9 @@ public class Key {
     KeyElement keyName;
     KeyElement keyLink;
 
+    public Key() {
+    }
+
     public Key(KeyElement keyLink) {
         this.keyLink = keyLink;
     }

@@ -27,8 +27,10 @@ public class KeyElement {
     String resultAttrKey;//resultType = RESULT_TYPE_ATTR 时，需要指定要查找的属性
     KeyElement keyElement;//下一步的操作关键点
 
+    public KeyElement() {
+    }
 
-    public KeyElement(String findType,String value,String findAttrKey,String resultType,String resultAttrKey) {
+    public KeyElement(String findType, String value, String findAttrKey, String resultType, String resultAttrKey) {
         this.value = value;
         this.findAttrKey = findAttrKey;
         this.findType = findType;

@@ -14,6 +14,9 @@ public class Page extends Description{
     Action action;
     Page next;
 
+    public Page() {
+    }
+
     public Page(Action action){
         this.action = action;
     }
@@ -43,7 +46,7 @@ public class Page extends Description{
         if (next != null ){
             return next.getLastResults();
         }
-        return action.getResults();
+        return action.getEnableResults();
     }
 
     public Action getAction() {

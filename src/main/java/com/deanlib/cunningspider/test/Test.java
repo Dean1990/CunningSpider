@@ -17,8 +17,8 @@ public class Test {
     public static void main(String[] args) {
         Executor executor = new Executor();
         try {
-            Site site = new ChinaZPic();
-            List<Result> results = executor.excute(site.getDetail(), 10000);
+            Site site = new MM131();
+            List<Result> results = executor.excute(site.getCatalog(), 10000);
             for (Result result : results){
                 System.out.println(result);
                 //Downloader.download(action.getResult(),new File("C:\\Users\\Dean\\Desktop\\"),"111.jpg");

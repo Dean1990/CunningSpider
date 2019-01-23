@@ -16,6 +16,8 @@ public class Action {
     @JSONField(serialize = false)
     List<Result> results;
 
+    public Action() {
+    }
 
     public Action(Key key){
         this.key = key;
@@ -46,6 +48,11 @@ public class Action {
     }
 
     public List<Result> getResults() {
+        return results;
+    }
+
+    @JSONField(serialize = false)
+    public List<Result> getEnableResults(){
         if (results!=null && startResult>=0){
             return results.subList(startResult,endResult<= startResult?results.size():(endResult>results.size()?results.size():endResult));
         }
