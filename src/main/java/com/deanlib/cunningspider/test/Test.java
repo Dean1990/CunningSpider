@@ -1,27 +1,30 @@
 package com.deanlib.cunningspider.test;
 
 import com.alibaba.fastjson.JSON;
-import com.deanlib.cunningspider.instruction.Action;
-import com.deanlib.cunningspider.instruction.Instruction;
+import com.deanlib.cunningspider.description.Action;
+import com.deanlib.cunningspider.description.Page;
+import com.deanlib.cunningspider.description.Result;
+import com.deanlib.cunningspider.description.Site;
 import com.deanlib.cunningspider.rule.Executor;
-import com.deanlib.cunningspider.test.instruction.ChinaZPic;
-import com.deanlib.cunningspider.test.instruction.MM131;
+import com.deanlib.cunningspider.test.description.ChinaZPic;
+import com.deanlib.cunningspider.test.description.MM131;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Test {
 
     public static void main(String[] args) {
         Executor executor = new Executor();
         try {
-            Instruction instruction = new MM131();
-            executor.excute(instruction,10000);
-            for (Action action : instruction.getActions()){
-                System.out.println(action.getCatalogResult());
+            Site site = new ChinaZPic();
+            List<Result> results = executor.excute(site.getDetail(), 10000);
+            for (Result result : results){
+                System.out.println(result);
                 //Downloader.download(action.getResult(),new File("C:\\Users\\Dean\\Desktop\\"),"111.jpg");
 //                Downloader.download(action.getLastResult(),new File("/Users/dean/Downloads"),"111.jpg");
             }
-            String str = JSON.toJSONString(instruction);
+            String str = JSON.toJSONString(site);
             System.out.println(str);
         } catch (IOException e) {
             e.printStackTrace();
