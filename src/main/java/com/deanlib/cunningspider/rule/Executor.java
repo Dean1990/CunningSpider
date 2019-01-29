@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Executor {
@@ -29,7 +30,7 @@ public class Executor {
         if (action.getKey() == null)
             throw new NullPointerException("Page Action key is null");
         if (action.getKey().getKeyLink() != null)
-            find(doc, action.getKey().getKeyLink(), action, 1);
+            find(doc, action.getKey().getKeyLink(), action,1);
         if (page.getNext() != null) {
             if (page.getNext().getUrl() == null && page.getAction().getResults() != null &&
                     page.getAction().getResults().size() > 0)
@@ -37,9 +38,9 @@ public class Executor {
             excute(page.getNext(), timeout);
         } else {
             if (action.getKey().getKeyName() != null)
-                find(doc, action.getKey().getKeyName(), action, 0);
+                find(doc, action.getKey().getKeyName(), action,0);
             if (action.getKey().getKeyCover() != null)
-                find(doc,action.getKey().getKeyCover(),action,2);
+                find(doc, action.getKey().getKeyCover(),action, 2);
         }
 
 
@@ -59,31 +60,79 @@ public class Executor {
 
 
     private void find(Element element, KeyElement keyElement, Action action, int index) {
-        System.out.print("find -> "+index + " ->");
+        System.out.print("find -> ");
+        if (keyElement != null) {
+            List<Result> results = null;
+            switch (keyElement.getFindType()) {
+                case KeyElement.FIND_TYPE_ID:
+                    System.out.println("id=" + keyElement.getValue());
+                    results = dispose(element.getElementById(keyElement.getValue()), keyElement,action, index);
+                    break;
+                case KeyElement.FIND_TYPE_TAG:
+                    System.out.println("tag=" + keyElement.getValue());
+                    results = dispose(element.getElementsByTag(keyElement.getValue()), keyElement,action, index);
+                    break;
+                case KeyElement.FIND_TYPE_CLASS:
+                    System.out.println("class=" + keyElement.getValue());
+                    results = dispose(element.getElementsByClass(keyElement.getValue()), keyElement,action, index);
+                    break;
+                case KeyElement.FIND_TYPE_INDEX:
+                    System.out.println("index=" + keyElement.getValue());
+                    results = dispose(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())), keyElement,action, index);
+                    break;
+                case KeyElement.FIND_TYPE_ATTRIBUTE:
+                    if (keyElement.getFindAttrKey() != null) {
+                        System.out.println("attr " + keyElement.getFindAttrKey() + "=" + keyElement.getValue());
+                        results = dispose(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey()
+                                , keyElement.getValue()), keyElement,action, index);
+                    } else {
+                        System.err.println("attr key is null");
+                    }
+
+                    break;
+            }
+        } else {
+            throw new NullPointerException("KeyElement is null");
+        }
+//        System.out.println("find result : "+result);
+//        return result;
+    }
+
+    /**
+     * 只要一个
+     * 按要求，对keyElement的子keyElement保定唯一描述情况定义的函数
+     *
+     * @param element
+     * @param keyElement
+     * @return
+     */
+    private String find1(Element element, KeyElement keyElement) {
+        System.out.print("find1 -> ");
+        String result = null;
         if (keyElement != null) {
 
             switch (keyElement.getFindType()) {
                 case KeyElement.FIND_TYPE_ID:
                     System.out.println("id=" + keyElement.getValue());
-                    recursion(element.getElementById(keyElement.getValue()), keyElement, action, index);
+                    result = find1Recursion(element.getElementById(keyElement.getValue()), keyElement);
                     break;
                 case KeyElement.FIND_TYPE_TAG:
                     System.out.println("tag=" + keyElement.getValue());
-                    recursion(element.getElementsByTag(keyElement.getValue()), keyElement, action, index);
+                    result = find1Recursion(element.getElementsByTag(keyElement.getValue()), keyElement);
                     break;
                 case KeyElement.FIND_TYPE_CLASS:
                     System.out.println("class=" + keyElement.getValue());
-                    recursion(element.getElementsByClass(keyElement.getValue()), keyElement, action, index);
+                    result = find1Recursion(element.getElementsByClass(keyElement.getValue()), keyElement);
                     break;
                 case KeyElement.FIND_TYPE_INDEX:
                     System.out.println("index=" + keyElement.getValue());
-                    recursion(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())), keyElement, action, index);
+                    result = find1Recursion(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())), keyElement);
                     break;
                 case KeyElement.FIND_TYPE_ATTRIBUTE:
                     if (keyElement.getFindAttrKey() != null) {
                         System.out.println("attr " + keyElement.getFindAttrKey() + "=" + keyElement.getValue());
-                        recursion(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey()
-                                , keyElement.getValue()), keyElement, action, index);
+                        result = find1Recursion(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey()
+                                , keyElement.getValue()), keyElement);
                     } else {
                         System.err.println("attr key is null");
                     }
@@ -94,75 +143,99 @@ public class Executor {
         } else {
             throw new NullPointerException("KeyElement is null");
         }
-//        System.out.println("find result : "+result);
-//        return result;
+        System.out.println("find1 result : " + result);
+        return result;
     }
 
-    private void recursion(Element element, KeyElement keyElement, Action action, int index) {
+    private String find1Recursion(Element element, KeyElement keyElement) {
+        if (element != null) {
+            return setResult(element, keyElement);
+        }
+        return null;
+    }
+
+    private String find1Recursion(Elements elements, KeyElement keyElement) {
+        if (elements != null && elements.size() > 0) {
+            return find1Recursion(elements.get(0), keyElement);
+        }
+        return null;
+    }
+
+    private List<Result> dispose(Element element, KeyElement keyElement, Action action, int index) {
         if (element != null) {
             Elements elements = new Elements(element);
-            recursion(elements, keyElement, action, index);
+            return dispose(elements, keyElement, action, index);
         }
+        return null;
     }
 
-    private void recursion(Elements elements, KeyElement keyElement, Action action, int index) {
+    private List<Result> dispose(Elements elements, KeyElement keyElement, Action action, int index) {
         if (elements != null) {
-
-            if (keyElement.getKeyElement() != null) {
-                for (Element element : elements) {
-                    find(element, keyElement.getKeyElement(), action, index);
-                }
-            } else {
+            if (action.getResults() == null) {
+                List<Result> results = new ArrayList<>();
                 for (int i = 0; i < elements.size(); i++) {
-                    setResult(elements.get(i), keyElement, action, i, index);
+                    results.add(new Result());
+                }
+                action.setResults(results);
+            }
+            for (int i = 0; i < elements.size(); i++) {
+                String str = null;
+                if (keyElement.getKeyElement() != null) {
+                    str = find1(elements.get(i), keyElement.getKeyElement());
+                } else {
+                    str = setResult(elements.get(i), keyElement);
+                }
+                switch (index) {
+                    case 0:
+                        action.getResults().get(i).setName(str);
+                        break;
+                    case 1:
+                        action.getResults().get(i).setLink(str);
+                        break;
+                    case 2:
+                        action.getResults().get(i).setCover(str);
+                        break;
                 }
             }
 
+            return action.getResults();
         }
+        return null;
     }
 
-    private void setResult(Element element, KeyElement keyElement, Action action, int position, int index) {
-        String str = null;
+    private String setResult(Element element, KeyElement keyElement) {
+        String result = null;
         switch (keyElement.getResultType()) {
             case KeyElement.RESULT_TYPE_HTML:
-                str = element.html();
+                result = element.html();
                 break;
             case KeyElement.RESULT_TYPE_TEXT:
-                str = element.text();
+                result = element.text();
                 break;
             case KeyElement.RESULT_TYPE_VAL:
-                str = element.val();
+                result = element.val();
                 break;
             case KeyElement.RESULT_TYPE_ATTR:
                 if (keyElement.getResultAttrKey() != null)
-                    str = element.attr(keyElement.getResultAttrKey());
+                    result = element.attr(keyElement.getResultAttrKey());
                 break;
         }
-        System.out.println("find result : " + str);
-        if (action.getResults() == null)
-            action.setResults(new ArrayList<>());
-        Result result = null;
-        if (position >= action.getResults().size()) {
-            result = new Result();
-            action.addResult(result);
-        } else {
-            result = action.getResults().get(position);
-            if (result == null) {
-                result = new Result();
-                action.addResult(result);
-            }
-        }
-        switch (index){
-            case 0:
-                result.setName(str);
-                break;
-            case 1:
-                result.setLink(str);
-                break;
-            case 2:
-                result.setCover(str);
-                break;
-        }
+        System.out.println("find result : " + result);
+        return result;
+//        if (action.getResults() == null)
+//            action.setResults(new ArrayList<>());
+//        Result result = null;
+//        if (position >= action.getResults().size()) {
+//            result = new Result();
+//            action.addResult(result);
+//        } else {
+//            result = action.getResults().get(position);
+//            if (result == null) {
+//                result = new Result();
+//                action.addResult(result);
+//            }
+//        }
+
 
     }
 
