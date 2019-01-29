@@ -59,7 +59,7 @@ public class Executor {
 
 
     private void find(Element element, KeyElement keyElement, Action action, int index) {
-        System.out.print("find -> ");
+        System.out.print("find -> "+index + " ->");
         if (keyElement != null) {
 
             switch (keyElement.getFindType()) {
@@ -107,6 +107,7 @@ public class Executor {
 
     private void recursion(Elements elements, KeyElement keyElement, Action action, int index) {
         if (elements != null) {
+
             if (keyElement.getKeyElement() != null) {
                 for (Element element : elements) {
                     find(element, keyElement.getKeyElement(), action, index);
@@ -138,10 +139,8 @@ public class Executor {
                 break;
         }
         System.out.println("find result : " + str);
-
         if (action.getResults() == null)
             action.setResults(new ArrayList<>());
-
         Result result = null;
         if (position >= action.getResults().size()) {
             result = new Result();

@@ -27,7 +27,9 @@ public class MM131 extends Site {
                 "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",KeyElement.RESULT_TYPE_TEXT,null),
                 new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
                         "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",
-                        KeyElement.RESULT_TYPE_ATTR,"href")))));
+                        KeyElement.RESULT_TYPE_ATTR,"href"),new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
+                "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",
+                new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,KeyElement.RESULT_TYPE_ATTR,"src"))))));
 
     }
 }
