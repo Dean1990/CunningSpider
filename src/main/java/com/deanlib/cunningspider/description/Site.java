@@ -10,7 +10,7 @@ import java.util.List;
  * 采用 list - resource - related 的方式，可以随着网站的更新，而自动更新
  * list 描述首页
  */
-public abstract class Site extends Description {
+public class Site extends Description {
 
 
     Page catalog;
