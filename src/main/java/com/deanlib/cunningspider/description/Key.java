@@ -4,6 +4,7 @@ public class Key {
 
     KeyElement keyName;
     KeyElement keyLink;
+    KeyElement keyCover;
 
     public Key() {
     }
@@ -15,6 +16,12 @@ public class Key {
     public Key(KeyElement keyName, KeyElement keyLink) {
         this.keyName = keyName;
         this.keyLink = keyLink;
+    }
+
+    public Key(KeyElement keyName, KeyElement keyLink, KeyElement keyCover) {
+        this.keyName = keyName;
+        this.keyLink = keyLink;
+        this.keyCover = keyCover;
     }
 
     public KeyElement getKeyName() {
@@ -31,5 +38,13 @@ public class Key {
 
     public void setKeyLink(KeyElement keyLink) {
         this.keyLink = keyLink;
+    }
+
+    public KeyElement getKeyCover() {
+        return keyCover;
+    }
+
+    public void setKeyCover(KeyElement keyCover) {
+        this.keyCover = keyCover;
     }
 }

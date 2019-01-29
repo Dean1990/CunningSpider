@@ -3,6 +3,7 @@ package com.deanlib.cunningspider.description;
 public class Result {
     String name;
     String link;
+    String cover;
 
     public String getName() {
         return name;
@@ -20,11 +21,20 @@ public class Result {
         this.link = link;
     }
 
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
     @Override
     public String toString() {
         return "Result{" +
                 "name='" + name + '\'' +
                 ", link='" + link + '\'' +
+                ", cover='" + cover + '\'' +
                 '}';
     }
 }

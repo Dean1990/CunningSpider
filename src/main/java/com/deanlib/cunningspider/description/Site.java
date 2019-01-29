@@ -1,6 +1,5 @@
 package com.deanlib.cunningspider.description;
 
-import java.util.List;
 
 /**
  * 定义网站的结构，不变

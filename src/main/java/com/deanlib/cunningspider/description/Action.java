@@ -1,8 +1,6 @@
 package com.deanlib.cunningspider.description;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.deanlib.cunningspider.description.Key;
-import com.deanlib.cunningspider.description.Result;
 
 import java.util.ArrayList;
 import java.util.List;

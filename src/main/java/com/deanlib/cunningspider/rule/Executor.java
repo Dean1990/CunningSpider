@@ -4,8 +4,6 @@ import com.deanlib.cunningspider.description.Action;
 import com.deanlib.cunningspider.description.Page;
 import com.deanlib.cunningspider.description.KeyElement;
 import com.deanlib.cunningspider.description.Result;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-import com.sun.org.apache.regexp.internal.RE;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -40,6 +38,8 @@ public class Executor {
         } else {
             if (action.getKey().getKeyName() != null)
                 find(doc, action.getKey().getKeyName(), action, 0);
+            if (action.getKey().getKeyCover() != null)
+                find(doc,action.getKey().getKeyCover(),action,2);
         }
 
 
@@ -153,12 +153,17 @@ public class Executor {
                 action.addResult(result);
             }
         }
-        if (index == 0) {
-            result.setName(str);
-        } else {
-            result.setLink(str);
+        switch (index){
+            case 0:
+                result.setName(str);
+                break;
+            case 1:
+                result.setLink(str);
+                break;
+            case 2:
+                result.setCover(str);
+                break;
         }
-
 
     }
 

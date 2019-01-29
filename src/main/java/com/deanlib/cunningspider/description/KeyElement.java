@@ -1,8 +1,5 @@
 package com.deanlib.cunningspider.description;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * 关键点
  * 这是一个描述
