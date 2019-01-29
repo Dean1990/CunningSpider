@@ -4,7 +4,7 @@ import com.deanlib.cunningspider.description.*;
 
 public class ChinaZPic extends Site {
     public ChinaZPic() {
-        setDetail(new Page("http://sc.chinaz.com/tag_tupian/DongHuaPian.html"
+        setResource(new Page("http://sc.chinaz.com/tag_tupian/DongHuaPian.html"
                 ,new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"卡通海绵宝宝表情图片",
                 "alt",KeyElement.RESULT_TYPE_ATTR,"href")))
                 ,new Page(new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_CLASS,"img_open",null,
