@@ -24,7 +24,8 @@ public class MM131 extends Site {
 //                        "target",KeyElement.RESULT_TYPE_ATTR,"href"))))));
         setResource(new Page(new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_CLASS,"content-pic",null,
                 new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
-                        KeyElement.RESULT_TYPE_ATTR,"src"))))));
+                        KeyElement.RESULT_TYPE_ATTR,"src"))))).setPageNum(new KeyElement(KeyElement.FIND_TYPE_TEXT,
+                "下一页",null,KeyElement.RESULT_TYPE_ATTR,"href")));
 
         setList(new Page("http://www.mm131.com/",new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
                 "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",KeyElement.RESULT_TYPE_TEXT,null),

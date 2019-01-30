@@ -32,12 +32,6 @@ public class Page extends Description{
         this.action = action;
     }
 
-    public Page(String url, Action action,Page next) {
-        this.url = url;
-        this.action = action;
-        this.next = next;
-    }
-
     /**
      * 取next最里层的action的results
      * @return
@@ -62,15 +56,17 @@ public class Page extends Description{
         return next;
     }
 
-    public void setNext(Page next) {
+    public Page setNext(Page next) {
         this.next = next;
+        return this;
     }
 
     public KeyElement getPageNum() {
         return pageNum;
     }
 
-    public void setPageNum(KeyElement pageNum) {
+    public Page setPageNum(KeyElement pageNum) {
         this.pageNum = pageNum;
+        return this;
     }
 }

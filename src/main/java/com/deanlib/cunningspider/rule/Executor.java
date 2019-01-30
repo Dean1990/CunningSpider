@@ -46,6 +46,8 @@ public class Executor {
                 find(doc, action.getKey().getKeyName(), action,0);
             if (action.getKey().getKeyCover() != null)
                 find(doc, action.getKey().getKeyCover(),action, 2);
+            if (page.getPageNum()!=null)
+                find(doc,page.getPageNum(),action,3);
         }
 
         List<Result> results = page.getLastResults();
@@ -53,6 +55,9 @@ public class Executor {
             if (linkHeaders!=null) {
                 if (result.getLink() != null) {
                     result.getLink().setHeaders(linkHeaders);
+                }
+                if (result.getNextPageNum() != null){
+                    result.getNextPageNum().setHeaders(linkHeaders);
                 }
             }
             if (coverHeaders!=null) {
@@ -69,33 +74,35 @@ public class Executor {
     private void find(Element element, KeyElement keyElement, Action action, int index) {
         System.out.print("find -> ");
         if (keyElement != null) {
-            List<Result> results = null;
             switch (keyElement.getFindType()) {
                 case KeyElement.FIND_TYPE_ID:
                     System.out.println("id=" + keyElement.getValue());
-                    results = dispose(element.getElementById(keyElement.getValue()), keyElement,action, index);
+                    dispose(element.getElementById(keyElement.getValue()), keyElement,action, index);
                     break;
                 case KeyElement.FIND_TYPE_TAG:
                     System.out.println("tag=" + keyElement.getValue());
-                    results = dispose(element.getElementsByTag(keyElement.getValue()), keyElement,action, index);
+                    dispose(element.getElementsByTag(keyElement.getValue()), keyElement,action, index);
                     break;
                 case KeyElement.FIND_TYPE_CLASS:
                     System.out.println("class=" + keyElement.getValue());
-                    results = dispose(element.getElementsByClass(keyElement.getValue()), keyElement,action, index);
+                    dispose(element.getElementsByClass(keyElement.getValue()), keyElement,action, index);
                     break;
                 case KeyElement.FIND_TYPE_INDEX:
                     System.out.println("index=" + keyElement.getValue());
-                    results = dispose(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())), keyElement,action, index);
+                    dispose(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())), keyElement,action, index);
                     break;
                 case KeyElement.FIND_TYPE_ATTRIBUTE:
                     if (keyElement.getFindAttrKey() != null) {
                         System.out.println("attr " + keyElement.getFindAttrKey() + "=" + keyElement.getValue());
-                        results = dispose(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey()
+                        dispose(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey()
                                 , keyElement.getValue()), keyElement,action, index);
                     } else {
                         System.err.println("attr key is null");
                     }
-
+                    break;
+                case KeyElement.FIND_TYPE_TEXT:
+                    System.out.println("text=" + keyElement.getValue());
+                    dispose(element.getElementsMatchingText(keyElement.getValue()),keyElement,action,index);
                     break;
             }
         } else {
@@ -117,7 +124,6 @@ public class Executor {
         System.out.print("find1 -> ");
         String result = null;
         if (keyElement != null) {
-
             switch (keyElement.getFindType()) {
                 case KeyElement.FIND_TYPE_ID:
                     System.out.println("id=" + keyElement.getValue());
@@ -143,7 +149,10 @@ public class Executor {
                     } else {
                         System.err.println("attr key is null");
                     }
-
+                    break;
+                case KeyElement.FIND_TYPE_TEXT:
+                    System.out.println("text=" + keyElement.getValue());
+                    result = find1Recursion(element.getElementsMatchingText(keyElement.getValue()),keyElement);
                     break;
             }
 
@@ -168,15 +177,14 @@ public class Executor {
         return null;
     }
 
-    private List<Result> dispose(Element element, KeyElement keyElement, Action action, int index) {
+    private void dispose(Element element, KeyElement keyElement, Action action, int index) {
         if (element != null) {
             Elements elements = new Elements(element);
-            return dispose(elements, keyElement, action, index);
+            dispose(elements, keyElement, action, index);
         }
-        return null;
     }
 
-    private List<Result> dispose(Elements elements, KeyElement keyElement, Action action, int index) {
+    private void dispose(Elements elements, KeyElement keyElement, Action action, int index) {
         if (elements != null) {
             if (action.getResults() == null) {
                 List<Result> results = new ArrayList<>();
@@ -202,12 +210,14 @@ public class Executor {
                     case 2:
                         action.getResults().get(i).setCover(new Url(str));
                         break;
+                    case 3:
+                        action.getResults().get(i).setNextPageNum(new Url(str));
+                        break;
                 }
             }
 
-            return action.getResults();
         }
-        return null;
+
     }
 
     private String setResult(Element element, KeyElement keyElement) {

@@ -11,6 +11,7 @@ public class KeyElement {
     public static final String FIND_TYPE_CLASS = "class";
     public static final String FIND_TYPE_INDEX = "index";
     public static final String FIND_TYPE_ATTRIBUTE = "attribute";
+    public static final String FIND_TYPE_TEXT = "text";
 
     public static final String RESULT_TYPE_HTML = "html";
     public static final String RESULT_TYPE_TEXT = "text";
