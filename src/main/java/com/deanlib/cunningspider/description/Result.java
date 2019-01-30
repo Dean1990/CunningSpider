@@ -1,6 +1,8 @@
 package com.deanlib.cunningspider.description;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
     String name;
     Url link;
     Url cover;

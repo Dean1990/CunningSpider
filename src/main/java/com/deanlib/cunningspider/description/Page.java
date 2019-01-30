@@ -13,6 +13,7 @@ public class Page extends Description{
 
     Action action;
     Page next;
+    KeyElement pageNum;
 
     public Page() {
     }
@@ -63,5 +64,13 @@ public class Page extends Description{
 
     public void setNext(Page next) {
         this.next = next;
+    }
+
+    public KeyElement getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(KeyElement pageNum) {
+        this.pageNum = pageNum;
     }
 }
