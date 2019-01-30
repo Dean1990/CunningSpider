@@ -1,6 +1,8 @@
 package com.deanlib.cunningspider.description;
 
-public class Description {
+import java.io.Serializable;
+
+public class Description implements Serializable {
 
     String name;
     int version;
