@@ -1,8 +1,9 @@
 package com.deanlib.cunningspider.description;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Url {
+public class Url implements Serializable {
 
     String url;
     Map<String,String> headers;
