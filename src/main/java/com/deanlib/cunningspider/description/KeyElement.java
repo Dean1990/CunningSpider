@@ -1,10 +1,12 @@
 package com.deanlib.cunningspider.description;
 
+import java.io.Serializable;
+
 /**
  * 关键点
  * 这是一个描述
  */
-public class KeyElement {
+public class KeyElement implements Serializable {
 
     public static final String FIND_TYPE_ID = "id";
     public static final String FIND_TYPE_TAG = "tag";

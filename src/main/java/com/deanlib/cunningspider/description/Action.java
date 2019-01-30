@@ -2,10 +2,11 @@ package com.deanlib.cunningspider.description;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Action {
+public class Action implements Serializable {
 
     Key key;
     int startResult;//半包半闭原则，包括start不包括end
