@@ -1,6 +1,11 @@
 package com.deanlib.cunningspider.description;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 定义网站的结构，不变
  * 由四部分组成
@@ -16,6 +21,9 @@ public class Site extends Description {
     Page list;
     Page resource;
     Page related;
+
+    Map<String,String> linkHeaders;
+    Map<String,String> coverHeaders;
 
 
     public Page getCatalog() {
@@ -48,5 +56,33 @@ public class Site extends Description {
 
     public void setRelated(Page related) {
         this.related = related;
+    }
+
+    public Map<String,String> getLinkHeaders() {
+        return linkHeaders;
+    }
+
+    public void setLinkHeaders(Map<String,String> linkHeaders) {
+        this.linkHeaders = linkHeaders;
+    }
+
+    public void addLinkHeader(String key, String value){
+        if (linkHeaders == null)
+            linkHeaders = new HashMap<>();
+        linkHeaders.put(key,value);
+    }
+
+    public Map<String,String> getCoverHeaders() {
+        return coverHeaders;
+    }
+
+    public void setCoverHeaders(Map<String,String> coverHeaders) {
+        this.coverHeaders = coverHeaders;
+    }
+
+    public void addCoverHeader(String key, String value){
+        if (coverHeaders == null)
+            coverHeaders = new HashMap<>();
+        coverHeaders.put(key,value);
     }
 }

@@ -2,8 +2,8 @@ package com.deanlib.cunningspider.description;
 
 public class Result {
     String name;
-    String link;
-    String cover;
+    Url link;
+    Url cover;
 
     public String getName() {
         return name;
@@ -13,19 +13,19 @@ public class Result {
         this.name = name;
     }
 
-    public String getLink() {
+    public Url getLink() {
         return link;
     }
 
-    public void setLink(String link) {
+    public void setLink(Url link) {
         this.link = link;
     }
 
-    public String getCover() {
+    public Url getCover() {
         return cover;
     }
 
-    public void setCover(String cover) {
+    public void setCover(Url cover) {
         this.cover = cover;
     }
 

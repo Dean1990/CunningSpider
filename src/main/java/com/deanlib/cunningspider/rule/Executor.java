@@ -1,28 +1,33 @@
 package com.deanlib.cunningspider.rule;
 
-import com.deanlib.cunningspider.description.Action;
-import com.deanlib.cunningspider.description.Page;
-import com.deanlib.cunningspider.description.KeyElement;
-import com.deanlib.cunningspider.description.Result;
+import com.deanlib.cunningspider.description.*;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Executor {
 
-    public List<Result> excute(Page page, int timeout) throws IOException {
+    public List<Result> excute(Page page, int timeout)throws IOException {
+        return excute(page,timeout,null,null);
+    }
+
+    public List<Result> excute(Page page, int timeout ,Map<String,String> linkHeaders,Map<String,String> coverHeaders) throws IOException {
         if (page == null)
             throw new NullPointerException("Page is null");
 
         System.out.println("Excute url:" + page.getUrl() + "  timeout:" + timeout);
-        Document doc = Jsoup.parse(new URL(page.getUrl()), timeout);
+//        Document doc = Jsoup.parse(new URL(page.getUrl()), timeout);
+        Connection connect = Jsoup.connect(page.getUrl());
+        if (linkHeaders!=null){
+            connect.headers(linkHeaders);
+        }
+        connect.timeout(timeout);
+        Document doc = connect.get();
 
         Action action = page.getAction();
         if (action == null)
@@ -34,8 +39,8 @@ public class Executor {
         if (page.getNext() != null) {
             if (page.getNext().getUrl() == null && page.getAction().getResults() != null &&
                     page.getAction().getResults().size() > 0)
-                page.getNext().setUrl(page.getAction().getResults().get(0).getLink());//这种情况只取第一个（多层page时）
-            excute(page.getNext(), timeout);
+                page.getNext().setUrl(page.getAction().getResults().get(0).getLink().getUrl());//这种情况只取第一个（多层page时）
+            excute(page.getNext(), timeout,linkHeaders,coverHeaders);
         } else {
             if (action.getKey().getKeyName() != null)
                 find(doc, action.getKey().getKeyName(), action,0);
@@ -43,19 +48,21 @@ public class Executor {
                 find(doc, action.getKey().getKeyCover(),action, 2);
         }
 
+        List<Result> results = page.getLastResults();
+        for (Result result : results){
+            if (linkHeaders!=null) {
+                if (result.getLink() != null) {
+                    result.getLink().setHeaders(linkHeaders);
+                }
+            }
+            if (coverHeaders!=null) {
+                if (result.getCover() != null) {
+                    result.getCover().setHeaders(coverHeaders);
+                }
+            }
+        }
 
-//        if (!action.isCatalog() && action.getAction()!=null && action.getResults()!=null){
-//            //下一步操作
-//            for (List<String> list : action.getResults()) {
-//                if (list!=null && list.size()>0 && Pattern.matches("https?:\\/\\/\\S+", list.get(0))) {
-//                    excute(new Page(list.get(0), action.getAction()), timeout);
-//                } else {
-//                    System.err.println("error url");
-//                }
-//            }
-//        }
-
-        return page.getLastResults();
+        return results;
     }
 
 
@@ -190,10 +197,10 @@ public class Executor {
                         action.getResults().get(i).setName(str);
                         break;
                     case 1:
-                        action.getResults().get(i).setLink(str);
+                        action.getResults().get(i).setLink(new Url(str));
                         break;
                     case 2:
-                        action.getResults().get(i).setCover(str);
+                        action.getResults().get(i).setCover(new Url(str));
                         break;
                 }
             }

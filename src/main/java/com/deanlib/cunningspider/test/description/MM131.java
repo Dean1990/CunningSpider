@@ -2,6 +2,9 @@ package com.deanlib.cunningspider.test.description;
 
 import com.deanlib.cunningspider.description.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MM131 extends Site {
     public MM131() {
 //        setCatalog(new Page("http://www.mm131.com/",new Action(
@@ -30,6 +33,13 @@ public class MM131 extends Site {
                         KeyElement.RESULT_TYPE_ATTR,"href"),new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
                 "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",
                 new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,KeyElement.RESULT_TYPE_ATTR,"src"))))));
+        setRelated(new Page(new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,
+                new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,KeyElement.RESULT_TYPE_ATTR,"alt")),
+                new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,new KeyElement(KeyElement.FIND_TYPE_TAG,"a",null,
+                        KeyElement.RESULT_TYPE_ATTR,"href")),new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
+                        KeyElement.RESULT_TYPE_ATTR,"src"))))));
 
+        addCoverHeader("Referer","http://www.mm131.com/qingchun/2124.html");
+        addCoverHeader("Host","img1.mm131.me");
     }
 }

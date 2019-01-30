@@ -18,7 +18,7 @@ public class Test {
         Executor executor = new Executor();
         try {
             Site site = new MM131();
-            List<Result> results = executor.excute(site.getList(), 10000);
+            List<Result> results = executor.excute(site.getList(), 10000,null,site.getCoverHeaders());
             for (Result result : results){
                 System.out.println(result);
                 //Downloader.download(action.getResult(),new File("C:\\Users\\Dean\\Desktop\\"),"111.jpg");
