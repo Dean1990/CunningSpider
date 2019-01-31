@@ -23,7 +23,7 @@ public class PageResult implements Serializable {
         return nextPageLink;
     }
 
-    public void setNextPageLink(Url nextPageNum) {
+    public void setNextPageLink(Url nextPageLink) {
         this.nextPageLink = nextPageLink;
     }
 }
