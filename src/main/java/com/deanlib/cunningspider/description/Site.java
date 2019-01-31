@@ -19,7 +19,7 @@ public class Site extends Description {
 
     Page catalog;
     Page list;
-    Page resource;
+    Page resource;//详情页的描述只能是一层，不能使用page next，否则结果不可控
     Page related;
 
     Map<String,String> linkHeaders;

@@ -7,7 +7,7 @@ public class Result implements Serializable {
     Url link;
     Url cover;
 
-    Url nextPageNum;
+
 
     public String getName() {
         return name;
@@ -31,14 +31,6 @@ public class Result implements Serializable {
 
     public void setCover(Url cover) {
         this.cover = cover;
-    }
-
-    public Url getNextPageNum() {
-        return nextPageNum;
-    }
-
-    public void setNextPageNum(Url nextPageNum) {
-        this.nextPageNum = nextPageNum;
     }
 
     @Override

@@ -12,11 +12,16 @@ import java.util.*;
 
 public class Executor {
 
-    public List<Result> excute(Page page, int timeout)throws IOException {
+    public PageResult excute(Page page, int timeout)throws IOException {
         return excute(page,timeout,null,null);
     }
 
-    public List<Result> excute(Page page, int timeout ,Map<String,String> linkHeaders,Map<String,String> coverHeaders) throws IOException {
+    public PageResult excute(Page page, int timeout,Map<String,String> linkHeaders,Map<String,String> coverHeaders)throws IOException {
+        return excute(page,timeout,null,null,true);
+    }
+
+    private PageResult excute(Page page, int timeout ,Map<String,String> linkHeaders,Map<String,String> coverHeaders
+            ,boolean isTop) throws IOException {
         if (page == null)
             throw new NullPointerException("Page is null");
 
@@ -40,34 +45,45 @@ public class Executor {
             if (page.getNext().getUrl() == null && page.getAction().getResults() != null &&
                     page.getAction().getResults().size() > 0)
                 page.getNext().setUrl(page.getAction().getResults().get(0).getLink().getUrl());//这种情况只取第一个（多层page时）
-            excute(page.getNext(), timeout,linkHeaders,coverHeaders);
+            excute(page.getNext(), timeout,linkHeaders,coverHeaders,false);
         } else {
             if (action.getKey().getKeyName() != null)
                 find(doc, action.getKey().getKeyName(), action,0);
             if (action.getKey().getKeyCover() != null)
                 find(doc, action.getKey().getKeyCover(),action, 2);
-            if (page.getPageNum()!=null)
-                find(doc,page.getPageNum(),action,3);
         }
 
-        List<Result> results = page.getLastResults();
-        for (Result result : results){
-            if (linkHeaders!=null) {
-                if (result.getLink() != null) {
-                    result.getLink().setHeaders(linkHeaders);
+        if (isTop){
+            List<Result> results = page.getLastResults();
+            if (results!=null) {
+
+                for (Result result : results) {
+                    if (linkHeaders != null) {
+                        if (result.getLink() != null) {
+                            result.getLink().setHeaders(linkHeaders);
+                        }
+                    }
+                    if (coverHeaders != null) {
+                        if (result.getCover() != null) {
+                            result.getCover().setHeaders(coverHeaders);
+                        }
+                    }
                 }
-                if (result.getNextPageNum() != null){
-                    result.getNextPageNum().setHeaders(linkHeaders);
+                PageResult pageResult = new PageResult();
+                pageResult.setResults(results);
+
+                if (page.getPageNum()!=null) {
+                    Url url = new Url(find1(doc,page.getPageNum()));
+                    if (linkHeaders != null)
+                        url.setHeaders(linkHeaders);
+                    pageResult.setNextPageNum(url);
                 }
+                return pageResult;
             }
-            if (coverHeaders!=null) {
-                if (result.getCover() != null) {
-                    result.getCover().setHeaders(coverHeaders);
-                }
-            }
+            return null;
         }
 
-        return results;
+        return null;
     }
 
 
@@ -102,7 +118,7 @@ public class Executor {
                     break;
                 case KeyElement.FIND_TYPE_TEXT:
                     System.out.println("text=" + keyElement.getValue());
-                    dispose(element.getElementsMatchingText(keyElement.getValue()),keyElement,action,index);
+                    dispose(element.getElementsMatchingOwnText(keyElement.getValue()),keyElement,action,index);
                     break;
             }
         } else {
@@ -152,7 +168,7 @@ public class Executor {
                     break;
                 case KeyElement.FIND_TYPE_TEXT:
                     System.out.println("text=" + keyElement.getValue());
-                    result = find1Recursion(element.getElementsMatchingText(keyElement.getValue()),keyElement);
+                    result = find1Recursion(element.getElementsMatchingOwnText(keyElement.getValue()),keyElement);
                     break;
             }
 
@@ -209,9 +225,6 @@ public class Executor {
                         break;
                     case 2:
                         action.getResults().get(i).setCover(new Url(str));
-                        break;
-                    case 3:
-                        action.getResults().get(i).setNextPageNum(new Url(str));
                         break;
                 }
             }

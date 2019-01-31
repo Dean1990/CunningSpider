@@ -13,7 +13,7 @@ public class Page extends Description{
 
     Action action;
     Page next;
-    KeyElement pageNum;
+    KeyElement pageNum;//是在最表层查找的，不会参与next
 
     public Page() {
     }
