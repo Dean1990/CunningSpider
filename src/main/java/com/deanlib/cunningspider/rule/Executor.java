@@ -72,11 +72,14 @@ public class Executor {
                 PageResult pageResult = new PageResult();
                 pageResult.setResults(results);
 
-                if (page.getPageNum()!=null) {
-                    Url url = new Url(find1(doc,page.getPageNum()));
-                    if (linkHeaders != null)
-                        url.setHeaders(linkHeaders);
-                    pageResult.setNextPageNum(url);
+                if (page.getNextPageLink()!=null) {
+                    String nextPageLink = find1(doc,page.getNextPageLink());
+                    if (nextPageLink != null && !"".equals(nextPageLink)) {
+                        Url url = new Url(nextPageLink);
+                        if (linkHeaders != null)
+                            url.setHeaders(linkHeaders);
+                        pageResult.setNextPageLink(url);
+                    }
                 }
                 return pageResult;
             }

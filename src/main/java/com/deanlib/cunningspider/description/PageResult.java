@@ -9,7 +9,7 @@ import java.util.List;
 public class PageResult implements Serializable {
 
     List<Result> results;
-    Url nextPageNum;
+    Url nextPageLink;
 
     public List<Result> getResults() {
         return results;
@@ -19,11 +19,11 @@ public class PageResult implements Serializable {
         this.results = results;
     }
 
-    public Url getNextPageNum() {
-        return nextPageNum;
+    public Url getNextPageLink() {
+        return nextPageLink;
     }
 
-    public void setNextPageNum(Url nextPageNum) {
-        this.nextPageNum = nextPageNum;
+    public void setNextPageLink(Url nextPageNum) {
+        this.nextPageLink = nextPageLink;
     }
 }

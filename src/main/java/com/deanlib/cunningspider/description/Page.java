@@ -13,7 +13,7 @@ public class Page extends Description{
 
     Action action;
     Page next;
-    KeyElement pageNum;//是在最表层查找的，不会参与next
+    KeyElement nextPageLink;//是在最表层查找的，不会参与next
 
     public Page() {
     }
@@ -61,12 +61,12 @@ public class Page extends Description{
         return this;
     }
 
-    public KeyElement getPageNum() {
-        return pageNum;
+    public KeyElement getNextPageLink() {
+        return nextPageLink;
     }
 
-    public Page setPageNum(KeyElement pageNum) {
-        this.pageNum = pageNum;
+    public Page setNextPageLink(KeyElement nextPageLink) {
+        this.nextPageLink = nextPageLink;
         return this;
     }
 }
