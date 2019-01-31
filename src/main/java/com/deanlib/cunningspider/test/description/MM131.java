@@ -44,6 +44,11 @@ public class MM131 extends Site {
                         KeyElement.RESULT_TYPE_ATTR,"src"))))));
 
         addCoverHeader("Referer","http://www.mm131.com");
-        addCoverHeader("Host","img1.mm131.me");
+        addCoverHeader("Accept", "image/webp,*/*");
+        addCoverHeader("Accept-Encoding","gzip, deflate");
+        addCoverHeader("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
+        addCoverHeader("Connection", "keep-alive");
+        addCoverHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0");
+        addCoverHeader("Host", "img1.mm131.me");
     }
 }
