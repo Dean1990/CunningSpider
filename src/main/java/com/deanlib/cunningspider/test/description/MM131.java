@@ -22,7 +22,10 @@ public class MM131 extends Site {
 //                "list-left public-box",null,
 //                new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"_blank",
 //                        "target",KeyElement.RESULT_TYPE_ATTR,"href"))))));
-        setResource(new Page(new Action(new Key(null,null,new KeyElement(KeyElement.FIND_TYPE_CLASS,"content-pic",null,
+        setResource(new Page(new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_CLASS,"content-pic",null,
+                new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
+                        KeyElement.RESULT_TYPE_ATTR,"alt")),null,
+                new KeyElement(KeyElement.FIND_TYPE_CLASS,"content-pic",null,
                 new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
                         KeyElement.RESULT_TYPE_ATTR,"src"))))).setNextPageLink(new KeyElement(KeyElement.FIND_TYPE_TEXT,
                 "下一页",null,KeyElement.RESULT_TYPE_ATTR,"href")));
