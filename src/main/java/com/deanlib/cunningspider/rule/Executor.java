@@ -17,7 +17,7 @@ public class Executor {
     }
 
     public PageResult excute(Page page, int timeout,Map<String,String> linkHeaders,Map<String,String> coverHeaders)throws IOException {
-        return excute(page,timeout,null,null,true);
+        return excute(page,timeout,linkHeaders,coverHeaders,true);
     }
 
     private PageResult excute(Page page, int timeout ,Map<String,String> linkHeaders,Map<String,String> coverHeaders
