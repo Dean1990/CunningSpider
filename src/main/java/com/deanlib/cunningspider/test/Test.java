@@ -11,8 +11,8 @@ public class Test {
     public static void main(String[] args) {
         Executor executor = new Executor();
         try {
-            Site site = new MM131();
-            PageResult pageResult = executor.excute(site.getResource(), 10000,null,site.getCoverHeaders());
+            Site site = new MZITU();
+            PageResult pageResult = executor.excute(site.getList(), 10000,null,site.getCoverHeaders());
             if (pageResult!=null && pageResult.getResults()!=null) {
                 for (Result result : pageResult.getResults()) {
                     System.out.println(result);
