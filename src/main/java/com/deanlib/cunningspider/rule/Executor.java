@@ -208,7 +208,11 @@ public class Executor {
     private Element disposeFindElement(Elements elements,KeyElement keyElement){
         if (elements!=null){
             if (keyElement.getStart()<elements.size()){
-                return elements.get(keyElement.getStart());
+                int index = keyElement.getStart();
+                if (index < 0){
+                    index = elements.size()+index;
+                }
+                return elements.get(index);
             }
         }
         return null;
@@ -216,9 +220,16 @@ public class Executor {
 
     private Elements disposeFindElements(Elements elements,KeyElement keyElement){
         if (elements!=null){
-            if (keyElement.getStart() > 0 && keyElement.getStart()<elements.size()){
-                return new Elements(elements.subList(keyElement.getStart()
-                        ,keyElement.getEnd()>elements.size()?elements.size():keyElement.getEnd()));
+            int index = keyElement.getStart();
+            if (index < 0){
+                index = elements.size()+index;
+            }
+            int endIndex = index + keyElement.getLength();
+            if (index<elements.size()){
+                return new Elements(elements.subList(index
+                        ,(endIndex>elements.size() || endIndex<=0)?elements.size():endIndex));
+            }else {
+                return elements;
             }
         }
         return elements;

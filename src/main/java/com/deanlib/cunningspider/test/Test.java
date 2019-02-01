@@ -4,13 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.deanlib.cunningspider.description.*;
 import com.deanlib.cunningspider.rule.Executor;
 import com.deanlib.cunningspider.test.description.MM131;
+import com.deanlib.cunningspider.test.description.MZITU;
 
 public class Test {
 
     public static void main(String[] args) {
         Executor executor = new Executor();
         try {
-            Site site = new MM131();
+            Site site = new MZITU();
             PageResult pageResult = executor.excute(site.getResource(), 10000,null,site.getCoverHeaders());
             if (pageResult!=null && pageResult.getResults()!=null) {
                 for (Result result : pageResult.getResults()) {

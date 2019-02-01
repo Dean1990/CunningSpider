@@ -28,8 +28,8 @@ public class KeyElement implements Serializable {
     KeyElement keyElement;//下一步的操作关键点
 
     boolean isList;//结果是列表
-    int start;
-    int end;
+    int start; //开始位置，当找一个元素时，及指定位置，可以传负数，表示反向 -1为倒数第一个，以此类推
+    int length;//长度，传<=0的数值表示到list最后
 
     public KeyElement() {
     }
@@ -106,13 +106,12 @@ public class KeyElement implements Serializable {
         return this;
     }
 
-    public int getEnd() {
-        return end;
+    public int getLength() {
+        return length;
     }
 
-    public KeyElement setEnd(int end) {
-        this.end = end;
-        return this;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public boolean isList() {
