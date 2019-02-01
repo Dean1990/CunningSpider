@@ -22,7 +22,7 @@ public class MM131 extends Site {
 //                "list-left public-box",null,
 //                new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"_blank",
 //                        "target",KeyElement.RESULT_TYPE_ATTR,"href"))))));
-        setResource(new Page(new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_CLASS,"content-pic",null,
+        setResource(new Page("http://www.mm131.com/xinggan/2478.html",new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_CLASS,"content-pic",null,
                 new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
                         KeyElement.RESULT_TYPE_ATTR,"alt")),null,
                 new KeyElement(KeyElement.FIND_TYPE_CLASS,"content-pic",null,
@@ -30,13 +30,17 @@ public class MM131 extends Site {
                         KeyElement.RESULT_TYPE_ATTR,"src"))))).setNextPageLink(new KeyElement(KeyElement.FIND_TYPE_TEXT,
                 "下一页",null,KeyElement.RESULT_TYPE_ATTR,"href")));
 
-        setList(new Page("http://www.mm131.com/",new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
-                "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",KeyElement.RESULT_TYPE_TEXT,null),
+        setList(new Page("http://www.mm131.com/",new Action(new Key(
+                new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
+                "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href"
+                        ,KeyElement.RESULT_TYPE_TEXT,null),
                 new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
                         "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",
-                        KeyElement.RESULT_TYPE_ATTR,"href"),new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
+                        KeyElement.RESULT_TYPE_ATTR,"href")
+                ,new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
                 "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",
-                new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,KeyElement.RESULT_TYPE_ATTR,"src"))))));
+                new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
+                        KeyElement.RESULT_TYPE_ATTR,"src"))).isList())));
         setRelated(new Page(new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,
                 new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,KeyElement.RESULT_TYPE_ATTR,"alt")),
                 new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,new KeyElement(KeyElement.FIND_TYPE_TAG,"a",null,

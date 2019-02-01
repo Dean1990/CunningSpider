@@ -216,12 +216,12 @@ public class Executor {
 
     private Elements disposeFindElements(Elements elements,KeyElement keyElement){
         if (elements!=null){
-            if (keyElement.getStart()<elements.size()){
+            if (keyElement.getStart() > 0 && keyElement.getStart()<elements.size()){
                 return new Elements(elements.subList(keyElement.getStart()
                         ,keyElement.getEnd()>elements.size()?elements.size():keyElement.getEnd()));
             }
         }
-        return null;
+        return elements;
     }
 
     /**
@@ -239,11 +239,14 @@ public class Executor {
         }
 
         Element e = findElement(element,keyElement);
-        if (keyElement.getKeyElement()!=null){
-            return findRecursion(e,keyElement.getKeyElement());
-        }else {
-            return getResult(element, keyElement.getResultType(),keyElement.getResultAttrKey());
+        if (e!=null) {
+            if (keyElement.getKeyElement() != null) {
+                return findRecursion(e, keyElement.getKeyElement());
+            } else {
+                return getResult(e, keyElement.getResultType(), keyElement.getResultAttrKey());
+            }
         }
+        return null;
     }
 
     /**

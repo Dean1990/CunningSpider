@@ -1,5 +1,7 @@
 package com.deanlib.cunningspider.description;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 
 /**
@@ -52,5 +54,16 @@ public class Key implements Serializable {
 
     public void setKeyCover(KeyElement keyCover) {
         this.keyCover = keyCover;
+    }
+
+    @JSONField(serialize = false)
+    public Key isList() {
+        if (keyName != null)
+            keyName.setList(true);
+        if (keyLink != null)
+            keyLink.setList(true);
+        if (keyCover != null)
+            keyCover.setList(true);
+        return this;
     }
 }
