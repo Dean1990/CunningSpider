@@ -27,6 +27,10 @@ public class KeyElement implements Serializable {
     String resultAttrKey;//resultType = RESULT_TYPE_ATTR 时，需要指定要查找的属性
     KeyElement keyElement;//下一步的操作关键点
 
+    boolean isList;//结果是列表
+    int start;
+    int end;
+
     public KeyElement() {
     }
 
@@ -91,5 +95,32 @@ public class KeyElement implements Serializable {
 
     public void setKeyElement(KeyElement keyElement) {
         this.keyElement = keyElement;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public KeyElement setStart(int start) {
+        this.start = start;
+        return this;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public KeyElement setEnd(int end) {
+        this.end = end;
+        return this;
+    }
+
+    public boolean isList() {
+        return isList;
+    }
+
+    public KeyElement setList(boolean list) {
+        isList = list;
+        return this;
     }
 }

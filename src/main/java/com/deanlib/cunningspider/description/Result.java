@@ -3,6 +3,11 @@ package com.deanlib.cunningspider.description;
 import java.io.Serializable;
 
 public class Result implements Serializable {
+
+    public static final String VAR_NAME = "name";
+    public static final String VAR_LINK = "link";
+    public static final String VAR_COVER = "cover";
+
     String name;
     Url link;
     Url cover;
