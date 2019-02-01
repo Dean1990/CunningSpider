@@ -9,8 +9,8 @@ import java.util.List;
 public class Action implements Serializable {
 
     Key key;
-    int startResult;//半包半闭原则，包括start不包括end
-    int endResult;//end 小于等于start的时，表示取值到列表最后
+    int start;//半包半闭原则，包括start不包括end 可以为负，反向
+    int length;//长度
 
     @JSONField(serialize = false)
     List<Result> results;
@@ -22,10 +22,10 @@ public class Action implements Serializable {
         this.key = key;
     }
 
-    public Action(Key key, int startResult, int endResult){
+    public Action(Key key, int start, int length){
         this.key = key;
-        this.startResult = startResult;
-        this.endResult = endResult;
+        this.start = start;
+        this.length = length;
     }
 
     public Key getKey() {
@@ -52,25 +52,35 @@ public class Action implements Serializable {
 
     @JSONField(serialize = false)
     public List<Result> getEnableResults(){
-        if (results!=null && startResult>=0){
-            return results.subList(startResult,endResult<= startResult?results.size():(endResult>results.size()?results.size():endResult));
+        if (results!=null) {
+            int index = getStart();
+            if (index < 0) {
+                index = results.size() + index;
+            }
+            int endIndex = index + getLength();
+            if (index < results.size()) {
+                return results.subList(index
+                        , (endIndex > results.size() || endIndex <= 0) ? results.size() : endIndex);
+            } else {
+                return results;
+            }
         }
         return results;
     }
 
-    public int getStartResult() {
-        return startResult;
+    public int getStart() {
+        return start;
     }
 
-    public void setStartResult(int startResult) {
-        this.startResult = startResult;
+    public void setStart(int start) {
+        this.start = start;
     }
 
-    public int getEndResult() {
-        return endResult;
+    public int getLength() {
+        return length;
     }
 
-    public void setEndResult(int endResult) {
-        this.endResult = endResult;
+    public void setLength(int length) {
+        this.length = length;
     }
 }
