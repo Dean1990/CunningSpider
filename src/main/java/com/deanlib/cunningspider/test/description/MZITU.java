@@ -14,15 +14,15 @@ public class MZITU extends Site {
                         "data-original",KeyElement.RESULT_TYPE_ATTR,"data-original").setList(true))
         ))));
 
-        setResource(new Page("https://www.mzitu.com/167298",new Action(new Key(
+        setResource(new Page("https://www.mzitu.com/167298/44",new Action(new Key(
                 new KeyElement(KeyElement.FIND_TYPE_CLASS,"main-image",null,new KeyElement(KeyElement.FIND_TYPE_TAG,
                         "img",null,KeyElement.RESULT_TYPE_ATTR, "alt")),
                 null,
                 new KeyElement(KeyElement.FIND_TYPE_CLASS,"main-image",null,new KeyElement(KeyElement.FIND_TYPE_TAG,
                         "img",null,KeyElement.RESULT_TYPE_ATTR, "src"))
-        ))).setNextPageLink(new KeyElement(KeyElement.FIND_TYPE_CLASS,"pagenavi",null,new KeyElement(KeyElement.FIND_TYPE_TAG,
-                "a",null,KeyElement.RESULT_TYPE_ATTR,
-                "href").setStart(-1))));
+        ))).setNextPageLink(new KeyElement(KeyElement.FIND_TYPE_CLASS,"pagenavi",null,new KeyElement(KeyElement.FIND_TYPE_TEXT,
+                "下一页",null,KeyElement.RESULT_TYPE_ATTR,
+                "href").setRelationship(new Relationship(Relationship.RELATION_SENIOR)))));
 
         addCoverHeader("Referer","https://www.mzitu.com");
         addCoverHeader("Accept", "image/webp,*/*");

@@ -57,13 +57,13 @@ public class Key implements Serializable {
     }
 
     @JSONField(serialize = false)
-    public Key isList() {
+    public Key setList(boolean b) {
         if (keyName != null)
-            keyName.setList(true);
+            keyName.setList(b);
         if (keyLink != null)
-            keyLink.setList(true);
+            keyLink.setList(b);
         if (keyCover != null)
-            keyCover.setList(true);
+            keyCover.setList(b);
         return this;
     }
 }

@@ -31,6 +31,8 @@ public class KeyElement implements Serializable {
     int start; //开始位置，当找一个元素时，及指定位置，可以传负数，表示反向 -1为倒数第一个，以此类推
     int length;//长度，传<=0的数值表示到list最后
 
+    Relationship relationship;
+
     public KeyElement() {
     }
 
@@ -120,6 +122,15 @@ public class KeyElement implements Serializable {
 
     public KeyElement setList(boolean list) {
         isList = list;
+        return this;
+    }
+
+    public Relationship getRelationship() {
+        return relationship;
+    }
+
+    public KeyElement setRelationship(Relationship relationship) {
+        this.relationship = relationship;
         return this;
     }
 }

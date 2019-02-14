@@ -110,7 +110,7 @@ public class Executor {
                 //如果没有next keyelement
                 //找到后就是结果
                 createActionResults(action,1);
-                String str = getResult(e,keyElement.getResultType(),keyElement.getResultAttrKey());
+                String str = getResult(e,keyElement.getRelationship(),keyElement.getResultType(),keyElement.getResultAttrKey());
                 updateActionResults(action,0,var,str);
             }
         }
@@ -212,7 +212,10 @@ public class Executor {
                 if (index < 0){
                     index = elements.size()+index;
                 }
-                return elements.get(index);
+                if (index < elements.size() && index >= 0 )
+                    return elements.get(index);
+                else
+                    return null;
             }
         }
         return null;
@@ -225,7 +228,7 @@ public class Executor {
                 index = elements.size()+index;
             }
             int endIndex = index + keyElement.getLength();
-            if (index<elements.size()){
+            if (index<elements.size() && index >= 0){
                 return new Elements(elements.subList(index
                         ,(endIndex>elements.size() || endIndex<=0)?elements.size():endIndex));
             }else {
@@ -254,7 +257,7 @@ public class Executor {
             if (keyElement.getKeyElement() != null) {
                 return findRecursion(e, keyElement.getKeyElement());
             } else {
-                return getResult(e, keyElement.getResultType(), keyElement.getResultAttrKey());
+                return getResult(e,keyElement.getRelationship(), keyElement.getResultType(), keyElement.getResultAttrKey());
             }
         }
         return null;
@@ -317,7 +320,7 @@ public class Executor {
                 if (keyElement.getKeyElement() != null) {
                     str = findRecursion(elements.get(i), keyElement.getKeyElement());
                 } else {
-                    str = getResult(elements.get(i), keyElement.getResultType(),keyElement.getResultAttrKey());
+                    str = getResult(elements.get(i),keyElement.getRelationship(), keyElement.getResultType(),keyElement.getResultAttrKey());
                 }
                 updateActionResults(action,i,var,str);
             }
@@ -326,38 +329,41 @@ public class Executor {
 
     }
 
-    private String getResult(Element element, String keyElementResultType,String keyElementResultAttrKey) {
+    private String getResult(Element element,Relationship relationship, String keyElementResultType,String keyElementResultAttrKey) {
         String result = null;
-        switch (keyElementResultType) {
-            case KeyElement.RESULT_TYPE_HTML:
-                result = element.html();
-                break;
-            case KeyElement.RESULT_TYPE_TEXT:
-                result = element.text();
-                break;
-            case KeyElement.RESULT_TYPE_VAL:
-                result = element.val();
-                break;
-            case KeyElement.RESULT_TYPE_ATTR:
-                if (keyElementResultAttrKey != null)
-                    result = element.attr(keyElementResultAttrKey);
-                break;
+        if (relationship!=null){
+            switch (relationship.getRelation()){
+                case Relationship.RELATION_SENIOR:
+                    element = element.parent();
+                    break;
+                case Relationship.RELATION_JUNIOR:
+                    int index = relationship.getIndex();
+                    if (index<0)
+                        index = element.childNodeSize()+index;
+                    if (index < element.childNodeSize() && index >= 0)
+                        element = element.child(relationship.getIndex());
+                    break;
+            }
+            result = getResult(element,relationship.getRelationship(),keyElementResultType,keyElementResultAttrKey);
+        }else {
+            switch (keyElementResultType) {
+                case KeyElement.RESULT_TYPE_HTML:
+                    result = element.html();
+                    break;
+                case KeyElement.RESULT_TYPE_TEXT:
+                    result = element.text();
+                    break;
+                case KeyElement.RESULT_TYPE_VAL:
+                    result = element.val();
+                    break;
+                case KeyElement.RESULT_TYPE_ATTR:
+                    if (keyElementResultAttrKey != null)
+                        result = element.attr(keyElementResultAttrKey);
+                    break;
+            }
         }
 //        System.out.println("find result : " + result);
         return result;
-//        if (action.getResults() == null)
-//            action.setResults(new ArrayList<>());
-//        Result result = null;
-//        if (position >= action.getResults().size()) {
-//            result = new Result();
-//            action.addResult(result);
-//        } else {
-//            result = action.getResults().get(position);
-//            if (result == null) {
-//                result = new Result();
-//                action.addResult(result);
-//            }
-//        }
 
 
     }

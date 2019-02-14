@@ -40,12 +40,12 @@ public class MM131 extends Site {
                 ,new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,
                 "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html","href",
                 new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
-                        KeyElement.RESULT_TYPE_ATTR,"src"))).isList())));
-        setRelated(new Page(new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,
-                new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,KeyElement.RESULT_TYPE_ATTR,"alt")),
+                        KeyElement.RESULT_TYPE_ATTR,"src"))).setList(true))));
+        setRelated(new Page("http://www.mm131.com/xinggan/2478.html",new Action(new Key(new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,
+                new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,KeyElement.RESULT_TYPE_ATTR,"alt").setList(true)),
                 new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,new KeyElement(KeyElement.FIND_TYPE_TAG,"a",null,
-                        KeyElement.RESULT_TYPE_ATTR,"href")),new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
-                        KeyElement.RESULT_TYPE_ATTR,"src"))))));
+                        KeyElement.RESULT_TYPE_ATTR,"href").setList(true)),new KeyElement(KeyElement.FIND_TYPE_ID,"opic",null,new KeyElement(KeyElement.FIND_TYPE_TAG,"img",null,
+                        KeyElement.RESULT_TYPE_ATTR,"src").setList(true))))));
 
         addCoverHeader("Referer","http://www.mm131.com");
         addCoverHeader("Accept", "image/webp,*/*");

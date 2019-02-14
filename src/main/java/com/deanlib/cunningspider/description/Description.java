@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Description implements Serializable {
 
     String name;
-    int version;
+//    int version;
     String url;
     String desc;
 
@@ -17,13 +17,13 @@ public class Description implements Serializable {
         this.name = name;
     }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
+//    public int getVersion() {
+//        return version;
+//    }
+//
+//    public void setVersion(int version) {
+//        this.version = version;
+//    }
 
     public String getUrl() {
         return url;

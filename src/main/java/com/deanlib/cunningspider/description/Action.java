@@ -58,7 +58,7 @@ public class Action implements Serializable {
                 index = results.size() + index;
             }
             int endIndex = index + getLength();
-            if (index < results.size()) {
+            if (index < results.size() && index >= 0) {
                 return results.subList(index
                         , (endIndex > results.size() || endIndex <= 0) ? results.size() : endIndex);
             } else {
