@@ -12,23 +12,23 @@ import java.util.*;
 
 public class Executor {
 
-    public PageResult excute(Page page, int timeout)throws IOException {
-        return excute(page,timeout,null,null);
+    public PageResult excute(Page page, int timeout) throws IOException {
+        return excute(page, timeout, null, null);
     }
 
-    public PageResult excute(Page page, int timeout,Map<String,String> linkHeaders,Map<String,String> coverHeaders)throws IOException {
-        return excute(page,timeout,linkHeaders,coverHeaders,true);
+    public PageResult excute(Page page, int timeout, Map<String, String> linkHeaders, Map<String, String> coverHeaders) throws IOException {
+        return excute(page, timeout, linkHeaders, coverHeaders, true);
     }
 
-    private PageResult excute(Page page, int timeout ,Map<String,String> linkHeaders,Map<String,String> coverHeaders
-            ,boolean isTop) throws IOException {
+    private PageResult excute(Page page, int timeout, Map<String, String> linkHeaders, Map<String, String> coverHeaders
+            , boolean isTop) throws IOException {
         if (page == null)
             throw new NullPointerException("Page is null");
 
 //        System.out.println("Excute url:" + page.getUrl() + "  timeout:" + timeout);
 //        Document doc = Jsoup.parse(new URL(page.getUrl()), timeout);
         Connection connect = Jsoup.connect(page.getUrl());
-        if (linkHeaders!=null){
+        if (linkHeaders != null) {
             connect.headers(linkHeaders);
         }
         connect.timeout(timeout);
@@ -40,22 +40,22 @@ public class Executor {
         if (action.getKey() == null)
             throw new NullPointerException("Page Action key is null");
         if (action.getKey().getKeyLink() != null)
-            find(doc, action.getKey().getKeyLink(), action,Result.VAR_LINK);
+            find(doc, action.getKey().getKeyLink(), action, Result.VAR_LINK);
         if (page.getNext() != null) {
             if (page.getNext().getUrl() == null && page.getAction().getResults() != null &&
                     page.getAction().getResults().size() > 0)
                 page.getNext().setUrl(page.getAction().getResults().get(0).getLink().getUrl());//这种情况只取第一个（多层page时）
-            excute(page.getNext(), timeout,linkHeaders,coverHeaders,false);
+            excute(page.getNext(), timeout, linkHeaders, coverHeaders, false);
         } else {
             if (action.getKey().getKeyName() != null)
-                find(doc, action.getKey().getKeyName(), action,Result.VAR_NAME);
+                find(doc, action.getKey().getKeyName(), action, Result.VAR_NAME);
             if (action.getKey().getKeyCover() != null)
-                find(doc, action.getKey().getKeyCover(),action, Result.VAR_COVER);
+                find(doc, action.getKey().getKeyCover(), action, Result.VAR_COVER);
         }
 
-        if (isTop){
+        if (isTop) {
             List<Result> results = page.getLastResults();
-            if (results!=null) {
+            if (results != null) {
 
                 for (Result result : results) {
                     if (linkHeaders != null) {
@@ -72,8 +72,8 @@ public class Executor {
                 PageResult pageResult = new PageResult();
                 pageResult.setResults(results);
 
-                if (page.getNextPageLink()!=null) {
-                    String nextPageLink = findRecursion(doc,page.getNextPageLink());
+                if (page.getNextPageLink() != null) {
+                    String nextPageLink = findRecursion(doc, page.getNextPageLink());
                     if (nextPageLink != null && !"".equals(nextPageLink)) {
                         Url url = new Url(nextPageLink);
                         if (linkHeaders != null)
@@ -93,25 +93,25 @@ public class Executor {
     private void find(Element element, KeyElement keyElement, Action action, String var) {
 
         //在整个 keyElement 链中最多只能有一个 isList;
-        if (keyElement.isList()){
+        if (keyElement.isList()) {
             //当前去查找的是列表，然后dispose去处理列表下边的事（后边的keyElement只会按唯一处理）
             //延伸 keyelement 链被这里截获 dispose中使用 findRecursion 继续延伸
-            dispose(findElements(element,keyElement),keyElement,action,var);
-        }else {
+            dispose(findElements(element, keyElement), keyElement, action, var);
+        } else {
             //不是列表 是查找的一个元素
             //一个元素时不能表示前面的查找都不是list,才能进到这个判断，也就是没有action 的 list 结果生成
             //这里可以一直递归，直到 keyElement.isList() 为真，去走上面的处理方法
             //或者整个keyElement的链中都没有规定 islist = true ，就会走下边的 else 部分
-            Element e = findElement(element,keyElement);
+            Element e = findElement(element, keyElement);
             if (keyElement.getKeyElement() != null) {
                 //在没有碰到 isList时，一直往里延伸 keyelement 链
-                find(e,keyElement.getKeyElement(),action,var);
+                find(e, keyElement.getKeyElement(), action, var);
             } else {
                 //如果没有next keyelement
                 //找到后就是结果
-                createActionResults(action,1);
-                String str = getResult(e,keyElement.getRelationship(),keyElement.getResultType(),keyElement.getResultAttrKey());
-                updateActionResults(action,0,var,str);
+                createActionResults(action, 1);
+                String str = getResult(e, keyElement.getRelationship(), keyElement.getKeyElementResult());
+                updateActionResults(action, 0, var, str);
             }
         }
     }
@@ -124,95 +124,104 @@ public class Executor {
         if (keyElement == null) {
             throw new NullPointerException("KeyElement is null");
         }
+        if (keyElement.getKeyElementFind() == null) {
+            throw new NullPointerException("KeyElementFind is null");
+        }
         Element e = null;
-            switch (keyElement.getFindType()) {
-                case KeyElement.FIND_TYPE_ID:
+        switch (keyElement.getKeyElementFind().getFindType()) {
+            case KeyElementFind.FIND_TYPE_ID:
 //                    System.out.println("id=" + keyElement.getValue());
-                    e = element.getElementById(keyElement.getValue());
-                    break;
-                case KeyElement.FIND_TYPE_TAG:
+                e = element.getElementById(keyElement.getKeyElementFind().getValue());
+                break;
+            case KeyElementFind.FIND_TYPE_TAG:
 //                    System.out.println("tag=" + keyElement.getValue());
-                    e = disposeFindElement(element.getElementsByTag(keyElement.getValue()),keyElement);
-                    break;
-                case KeyElement.FIND_TYPE_CLASS:
+                e = disposeFindElement(element.getElementsByTag(keyElement.getKeyElementFind().getValue()), keyElement);
+                break;
+            case KeyElementFind.FIND_TYPE_CLASS:
 //                    System.out.println("class=" + keyElement.getValue());
-                    e = disposeFindElement(element.getElementsByClass(keyElement.getValue()),keyElement);
-                    break;
-                case KeyElement.FIND_TYPE_INDEX:
+                e = disposeFindElement(element.getElementsByClass(keyElement.getKeyElementFind().getValue()), keyElement);
+                break;
+            case KeyElementFind.FIND_TYPE_INDEX:
 //                    System.out.println("index=" + keyElement.getValue());
-                    e = disposeFindElement(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())),keyElement);
-                    break;
-                case KeyElement.FIND_TYPE_ATTRIBUTE:
-                    if (keyElement.getFindAttrKey() != null) {
+                e = disposeFindElement(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getKeyElementFind().getValue())), keyElement);
+                break;
+            case KeyElementFind.FIND_TYPE_ATTRIBUTE:
+                if (keyElement.getKeyElementFind().getFindAttrKey() != null) {
 //                        System.out.println("attr " + keyElement.getFindAttrKey() + "=" + keyElement.getValue());
-                        e = disposeFindElement(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey()
-                                , keyElement.getValue()),keyElement);
-                    } else {
-                        throw new NullPointerException("attr key is null");
-                    }
-                    break;
-                case KeyElement.FIND_TYPE_TEXT:
+                    e = disposeFindElement(element.getElementsByAttributeValueMatching(keyElement.getKeyElementFind().getFindAttrKey()
+                            , keyElement.getKeyElementFind().getValue()), keyElement);
+                } else {
+                    throw new NullPointerException("attr key is null");
+                }
+                break;
+            case KeyElementFind.FIND_TYPE_TEXT:
 //                    System.out.println("text=" + keyElement.getValue());
-                    e = disposeFindElement(element.getElementsMatchingOwnText(keyElement.getValue()),keyElement);
-                    break;
-            }
+                e = disposeFindElement(element.getElementsMatchingOwnText(keyElement.getKeyElementFind().getValue()), keyElement);
+                break;
+        }
 
 
 //        System.out.println("find1 result : " + result);
         return e;
     }
 
-    private Elements findElements(Element element, KeyElement keyElement){
+    private Elements findElements(Element element, KeyElement keyElement) {
         //        System.out.print("findElement -> ");
+        if (element == null) {
+            throw new NullPointerException("Element is null");
+        }
+        if (keyElement == null) {
+            throw new NullPointerException("KeyElement is null");
+        }
+        if (keyElement.getKeyElementFind() == null) {
+            throw new NullPointerException("KeyElementFind is null");
+        }
+
         Elements es = null;
-        if (keyElement != null) {
-            switch (keyElement.getFindType()) {
+        switch (keyElement.getKeyElementFind().getFindType()) {
 //                case KeyElement.FIND_TYPE_ID:
 ////                    System.out.println("id=" + keyElement.getValue());
 //                    es = element.getElementById(keyElement.getValue());
 //                    break;
-                case KeyElement.FIND_TYPE_TAG:
+            case KeyElementFind.FIND_TYPE_TAG:
 //                    System.out.println("tag=" + keyElement.getValue());
-                    es = disposeFindElements(element.getElementsByTag(keyElement.getValue()),keyElement);
-                    break;
-                case KeyElement.FIND_TYPE_CLASS:
+                es = disposeFindElements(element.getElementsByTag(keyElement.getKeyElementFind().getValue()), keyElement);
+                break;
+            case KeyElementFind.FIND_TYPE_CLASS:
 //                    System.out.println("class=" + keyElement.getValue());
-                    es = disposeFindElements(element.getElementsByClass(keyElement.getValue()),keyElement);
-                    break;
-                case KeyElement.FIND_TYPE_INDEX:
+                es = disposeFindElements(element.getElementsByClass(keyElement.getKeyElementFind().getValue()), keyElement);
+                break;
+            case KeyElementFind.FIND_TYPE_INDEX:
 //                    System.out.println("index=" + keyElement.getValue());
-                    es = disposeFindElements(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getValue())),keyElement);
-                    break;
-                case KeyElement.FIND_TYPE_ATTRIBUTE:
-                    if (keyElement.getFindAttrKey() != null) {
+                es = disposeFindElements(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getKeyElementFind().getValue())), keyElement);
+                break;
+            case KeyElementFind.FIND_TYPE_ATTRIBUTE:
+                if (keyElement.getKeyElementFind().getFindAttrKey() != null) {
 //                        System.out.println("attr " + keyElement.getFindAttrKey() + "=" + keyElement.getValue());
-                        es = disposeFindElements(element.getElementsByAttributeValueMatching(keyElement.getFindAttrKey()
-                                , keyElement.getValue()),keyElement);
-                    } else {
-                        throw new NullPointerException("attr key is null");
-                    }
-                    break;
-                case KeyElement.FIND_TYPE_TEXT:
+                    es = disposeFindElements(element.getElementsByAttributeValueMatching(keyElement.getKeyElementFind().getFindAttrKey()
+                            , keyElement.getKeyElementFind().getValue()), keyElement);
+                } else {
+                    throw new NullPointerException("attr key is null");
+                }
+                break;
+            case KeyElementFind.FIND_TYPE_TEXT:
 //                    System.out.println("text=" + keyElement.getValue());
-                    es = disposeFindElements(element.getElementsMatchingOwnText(keyElement.getValue()),keyElement);
-                    break;
-            }
-
-        } else {
-            throw new NullPointerException("KeyElement is null");
+                es = disposeFindElements(element.getElementsMatchingOwnText(keyElement.getKeyElementFind().getValue()), keyElement);
+                break;
         }
+
 //        System.out.println("find1 result : " + result);
         return es;
     }
 
-    private Element disposeFindElement(Elements elements,KeyElement keyElement){
-        if (elements!=null){
-            if (keyElement.getStart()<elements.size()){
+    private Element disposeFindElement(Elements elements, KeyElement keyElement) {
+        if (elements != null) {
+            if (keyElement.getStart() < elements.size()) {
                 int index = keyElement.getStart();
-                if (index < 0){
-                    index = elements.size()+index;
+                if (index < 0) {
+                    index = elements.size() + index;
                 }
-                if (index < elements.size() && index >= 0 )
+                if (index < elements.size() && index >= 0)
                     return elements.get(index);
                 else
                     return null;
@@ -221,17 +230,17 @@ public class Executor {
         return null;
     }
 
-    private Elements disposeFindElements(Elements elements,KeyElement keyElement){
-        if (elements!=null){
+    private Elements disposeFindElements(Elements elements, KeyElement keyElement) {
+        if (elements != null) {
             int index = keyElement.getStart();
-            if (index < 0){
-                index = elements.size()+index;
+            if (index < 0) {
+                index = elements.size() + index;
             }
             int endIndex = index + keyElement.getLength();
-            if (index<elements.size() && index >= 0){
+            if (index < elements.size() && index >= 0) {
                 return new Elements(elements.subList(index
-                        ,(endIndex>elements.size() || endIndex<=0)?elements.size():endIndex));
-            }else {
+                        , (endIndex > elements.size() || endIndex <= 0) ? elements.size() : endIndex));
+            } else {
                 return elements;
             }
         }
@@ -240,24 +249,25 @@ public class Executor {
 
     /**
      * 返回结果的单一查找 递归
+     *
      * @param element
      * @param keyElement
      * @return
      */
     private String findRecursion(Element element, KeyElement keyElement) {
         if (element == null) {
-            throw  new NullPointerException("Element is null");
+            throw new NullPointerException("Element is null");
         }
         if (keyElement == null) {
-            throw  new NullPointerException("KeyElement is null");
+            throw new NullPointerException("KeyElement is null");
         }
 
-        Element e = findElement(element,keyElement);
-        if (e!=null) {
+        Element e = findElement(element, keyElement);
+        if (e != null) {
             if (keyElement.getKeyElement() != null) {
                 return findRecursion(e, keyElement.getKeyElement());
             } else {
-                return getResult(e,keyElement.getRelationship(), keyElement.getResultType(), keyElement.getResultAttrKey());
+                return getResult(e, keyElement.getRelationship(), keyElement.getKeyElementResult());
             }
         }
         return null;
@@ -265,10 +275,11 @@ public class Executor {
 
     /**
      * 生成 Action 内的results ，如果没有的话
+     *
      * @param action
      * @param length
      */
-    private void createActionResults(Action action,int length){
+    private void createActionResults(Action action, int length) {
         if (action.getResults() == null) {
             List<Result> results = new ArrayList<>();
             for (int i = 0; i < length; i++) {
@@ -280,16 +291,17 @@ public class Executor {
 
     /**
      * 更新 Action 内的results
+     *
      * @param action
      * @param position results 的下标
-     * @param var results Result对应的变量
+     * @param var      results Result对应的变量
+     * @param result   查找的结果
      * @see Result#VAR_NAME
      * @see Result#VAR_LINK
      * @see Result#VAR_COVER
-     * @param result 查找的结果
      */
-    private void updateActionResults(Action action,int position,String var,String result){
-        if (action!=null && action.getResults()!=null && action.getResults().size()>position) {
+    private void updateActionResults(Action action, int position, String var, String result) {
+        if (action != null && action.getResults() != null && action.getResults().size() > position) {
             switch (var) {
                 case Result.VAR_NAME:
                     action.getResults().get(position).setName(result);
@@ -307,6 +319,7 @@ public class Executor {
     /**
      * 只处理一个
      * 会生成action results 谨慎使用
+     *
      * @param elements
      * @param keyElement
      * @param action
@@ -314,51 +327,54 @@ public class Executor {
      */
     private void dispose(Elements elements, KeyElement keyElement, Action action, String var) {
         if (elements != null) {
-            createActionResults(action,elements.size());
+            createActionResults(action, elements.size());
             for (int i = 0; i < elements.size(); i++) {
                 String str = null;
                 if (keyElement.getKeyElement() != null) {
                     str = findRecursion(elements.get(i), keyElement.getKeyElement());
                 } else {
-                    str = getResult(elements.get(i),keyElement.getRelationship(), keyElement.getResultType(),keyElement.getResultAttrKey());
+                    str = getResult(elements.get(i), keyElement.getRelationship(), keyElement.getKeyElementResult());
                 }
-                updateActionResults(action,i,var,str);
+                updateActionResults(action, i, var, str);
             }
 
         }
 
     }
 
-    private String getResult(Element element,Relationship relationship, String keyElementResultType,String keyElementResultAttrKey) {
+    private String getResult(Element element, Relationship relationship, KeyElementResult keyElementResult) {
+        if (keyElementResult == null){
+            throw new NullPointerException("KeyElementResult is null");
+        }
         String result = null;
-        if (relationship!=null){
-            switch (relationship.getRelation()){
+        if (relationship != null) {
+            switch (relationship.getRelation()) {
                 case Relationship.RELATION_SENIOR:
                     element = element.parent();
                     break;
                 case Relationship.RELATION_JUNIOR:
                     int index = relationship.getIndex();
-                    if (index<0)
-                        index = element.childNodeSize()+index;
+                    if (index < 0)
+                        index = element.childNodeSize() + index;
                     if (index < element.childNodeSize() && index >= 0)
                         element = element.child(relationship.getIndex());
                     break;
             }
-            result = getResult(element,relationship.getRelationship(),keyElementResultType,keyElementResultAttrKey);
-        }else {
-            switch (keyElementResultType) {
-                case KeyElement.RESULT_TYPE_HTML:
+            result = getResult(element, relationship.getRelationship(), keyElementResult);
+        } else {
+            switch (keyElementResult.getResultType()) {
+                case KeyElementResult.RESULT_TYPE_HTML:
                     result = element.html();
                     break;
-                case KeyElement.RESULT_TYPE_TEXT:
+                case KeyElementResult.RESULT_TYPE_TEXT:
                     result = element.text();
                     break;
-                case KeyElement.RESULT_TYPE_VAL:
+                case KeyElementResult.RESULT_TYPE_VAL:
                     result = element.val();
                     break;
-                case KeyElement.RESULT_TYPE_ATTR:
-                    if (keyElementResultAttrKey != null)
-                        result = element.attr(keyElementResultAttrKey);
+                case KeyElementResult.RESULT_TYPE_ATTR:
+                    if (keyElementResult.getResultAttrKey() != null)
+                        result = element.attr(keyElementResult.getResultAttrKey());
                     break;
             }
         }

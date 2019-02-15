@@ -3,7 +3,7 @@ package com.deanlib.cunningspider.description;
 import java.io.Serializable;
 
 /**
- * 关系描述
+ * keyelement的关系描述
  */
 public class Relationship implements Serializable {
 

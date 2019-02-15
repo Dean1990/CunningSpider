@@ -6,24 +6,36 @@ public class MZITU extends Site {
 
     public MZITU(){
         setList(new Page("https://www.mzitu.com",new Action(new Key(
-                new KeyElement(KeyElement.FIND_TYPE_CLASS,"postlist",null,new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"https:\\/\\/i\\.meizitu\\.net\\/thumbs\\/.+\\.jpg",
-                        "data-original",KeyElement.RESULT_TYPE_ATTR,"alt").setList(true)),
-                new KeyElement(KeyElement.FIND_TYPE_CLASS,"postlist",null,new KeyElement(KeyElement.FIND_TYPE_TAG,
-                        "li",null,new KeyElement(KeyElement.FIND_TYPE_TAG,"a",null,KeyElement.RESULT_TYPE_ATTR,"href")).setList(true)),
-                new KeyElement(KeyElement.FIND_TYPE_CLASS,"postlist",null,new KeyElement(KeyElement.FIND_TYPE_ATTRIBUTE,"https:\\/\\/i\\.meizitu\\.net\\/thumbs\\/.+\\.jpg",
-                        "data-original",KeyElement.RESULT_TYPE_ATTR,"data-original").setList(true))
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"postlist"),
+                        new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ATTRIBUTE,"data-original","https:\\/\\/i\\.meizitu\\.net\\/thumbs\\/.+\\.jpg"),
+                                new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"alt")).setList(true)),
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"postlist"),new KeyElement(
+                        new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,
+                        "li"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"a"),
+                        new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href"))).setList(true)),
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"postlist"),
+                        new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ATTRIBUTE,"data-original","https:\\/\\/i\\.meizitu\\.net\\/thumbs\\/.+\\.jpg"),
+                                new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"data-original")).setList(true))
         ))));
 
         setResource(new Page("https://www.mzitu.com/167298/44",new Action(new Key(
-                new KeyElement(KeyElement.FIND_TYPE_CLASS,"main-image",null,new KeyElement(KeyElement.FIND_TYPE_TAG,
-                        "img",null,KeyElement.RESULT_TYPE_ATTR, "alt")),
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"main-image"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,
+                        "img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR, "alt"))),
                 null,
-                new KeyElement(KeyElement.FIND_TYPE_CLASS,"main-image",null,new KeyElement(KeyElement.FIND_TYPE_TAG,
-                        "img",null,KeyElement.RESULT_TYPE_ATTR, "src"))
-        ))).setNextPageLink(new KeyElement(KeyElement.FIND_TYPE_CLASS,"pagenavi",null,new KeyElement(KeyElement.FIND_TYPE_TEXT,
-                "下一页",null,KeyElement.RESULT_TYPE_ATTR,
-                "href").setRelationship(new Relationship(Relationship.RELATION_SENIOR)))));
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"main-image"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,
+                        "img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR, "src")))
+        ))).setNextPageLink(new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"pagenavi"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TEXT,
+                "下一页"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,
+                "href")).setRelationship(new Relationship(Relationship.RELATION_SENIOR)))));
 
+        setRelated(new Page("https://www.mzitu.com/169122",new Action(new Key(new KeyElement(
+                new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"widgets_like"),new KeyElement(
+                        new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"a"),
+                new KeyElementResult(KeyElementResult.RESULT_TYPE_TEXT)
+        ).setList(true)),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"widgets_like"),new KeyElement(
+                new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"a"),
+                new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href")
+        ).setList(true))))));
         addCoverHeader("Referer","https://www.mzitu.com");
         addCoverHeader("Accept", "image/webp,*/*");
         addCoverHeader("Accept-Encoding","gzip, deflate, br");
