@@ -15,6 +15,9 @@ public class Relationship implements Serializable {
 
     Relationship relationship;
 
+    public Relationship() {
+    }
+
     public Relationship(String relation) {
         this.relation = relation;
     }
