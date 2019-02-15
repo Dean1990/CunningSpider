@@ -8,6 +8,9 @@ public class AppInfo implements Serializable {
     boolean forcedUpdate;//强制更新
     String versionMsg;//版本信息
 
+    public AppInfo() {
+    }
+
     public AppInfo(int versionCode) {
         this.versionCode = versionCode;
     }

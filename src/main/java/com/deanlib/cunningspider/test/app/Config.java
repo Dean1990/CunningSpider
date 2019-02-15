@@ -11,6 +11,9 @@ public class Config implements Serializable {
     AppInfo appInfo;
     List<Site> sites;
 
+    public Config() {
+    }
+
     public Config(int version, AppInfo appInfo, List<Site> sites) {
         this.version = version;
         this.appInfo = appInfo;
