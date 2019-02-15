@@ -18,7 +18,7 @@ public class ConfigCreater {
         sites.add(new MZITU());
         sites.add(new MM131());
 
-        AppInfo appInfo = new AppInfo(1);
+        AppInfo appInfo = new AppInfo(1).setVersionMsg("第一个版本");
 
         Config config = new Config(1,appInfo,sites);
 
