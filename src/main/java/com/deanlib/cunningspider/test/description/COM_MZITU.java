@@ -2,9 +2,9 @@ package com.deanlib.cunningspider.test.description;
 
 import com.deanlib.cunningspider.description.*;
 
-public class MZITU extends Site {
+public class COM_MZITU extends Site {
 
-    public MZITU(){
+    public COM_MZITU(){
         setList(new Page("https://www.mzitu.com",new Action(new Key(
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"postlist"),
                         new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ATTRIBUTE,"data-original","https:\\/\\/i\\.meizitu\\.net\\/thumbs\\/.+\\.jpg"),

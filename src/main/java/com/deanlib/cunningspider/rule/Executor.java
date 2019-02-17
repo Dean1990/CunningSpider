@@ -53,10 +53,20 @@ public class Executor {
                 find(doc, action.getKey().getKeyCover(), action, Result.VAR_COVER);
         }
 
-        if (isTop) {
+        if (isTop) {//递归回到最顶层
             List<Result> results = page.getLastResults();
-            if (results != null) {
 
+            if (results != null) {
+                //对Result.link 去重
+                List<String> urlTable = new ArrayList<>();
+                for (int i = results.size()-1;i>=0;i--){
+                    if (urlTable.contains(results.get(i).getLink().getUrl())){
+                        results.remove(i);
+                    }else {
+                        urlTable.add(results.get(i).getLink().getUrl());
+                    }
+                }
+                //加头信息
                 for (Result result : results) {
                     if (linkHeaders != null) {
                         if (result.getLink() != null) {

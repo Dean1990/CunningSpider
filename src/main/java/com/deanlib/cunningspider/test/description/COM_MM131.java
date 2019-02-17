@@ -5,8 +5,8 @@ import com.deanlib.cunningspider.description.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MM131 extends Site {
-    public MM131() {
+public class COM_MM131 extends Site {
+    public COM_MM131() {
         setResource(new Page("http://www.mm131.com/xinggan/2478.html",new Action(new Key(new KeyElement(
                 new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"content-pic"),
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),
