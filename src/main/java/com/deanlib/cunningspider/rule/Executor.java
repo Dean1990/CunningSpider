@@ -101,7 +101,7 @@ public class Executor {
                 pageResult.setResults(results);
 
                 if (page.getNextPageLink() != null) {
-                    String nextPageLink = findRecursion(doc, page.getNextPageLink());
+                    String nextPageLink = repairUrl(findRecursion(doc, page.getNextPageLink()),page.getUrl());
                     if (nextPageLink != null && !"".equals(nextPageLink)) {
                         Url url = new Url(nextPageLink);
                         if (linkHeaders != null)
