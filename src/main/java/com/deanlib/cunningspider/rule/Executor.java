@@ -6,9 +6,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import sun.security.krb5.internal.PAData;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Executor {
 
@@ -40,7 +43,7 @@ public class Executor {
         if (action.getKey() == null)
             throw new NullPointerException("Page Action key is null");
         if (action.getKey().getKeyLink() != null)
-            find(doc, action.getKey().getKeyLink(), action, Result.VAR_LINK);
+            find(doc, action.getKey().getKeyLink(), page, Result.VAR_LINK);
         if (page.getNext() != null) {
             if (page.getNext().getUrl() == null && page.getAction().getResults() != null &&
                     page.getAction().getResults().size() > 0)
@@ -48,9 +51,9 @@ public class Executor {
             excute(page.getNext(), timeout, linkHeaders, coverHeaders, false);
         } else {
             if (action.getKey().getKeyName() != null)
-                find(doc, action.getKey().getKeyName(), action, Result.VAR_NAME);
+                find(doc, action.getKey().getKeyName(), page, Result.VAR_NAME);
             if (action.getKey().getKeyCover() != null)
-                find(doc, action.getKey().getKeyCover(), action, Result.VAR_COVER);
+                find(doc, action.getKey().getKeyCover(), page, Result.VAR_COVER);
         }
 
         if (isTop) {//递归回到最顶层
@@ -66,16 +69,18 @@ public class Executor {
                         urlTable.add(results.get(i).getLink().getUrl());
                     }
                 }
-                //加头信息
+                //加头信息 补全Url
                 for (Result result : results) {
                     if (linkHeaders != null) {
                         if (result.getLink() != null) {
                             result.getLink().setHeaders(linkHeaders);
+                            result.getLink().setUrl(repairUrl(result.getLink().getUrl(),result.getFindPageUrl()));
                         }
                     }
                     if (coverHeaders != null) {
                         if (result.getCover() != null) {
                             result.getCover().setHeaders(coverHeaders);
+                            result.getCover().setUrl(repairUrl(result.getCover().getUrl(),result.getFindPageUrl()));
                         }
                     }
                 }
@@ -99,14 +104,62 @@ public class Executor {
         return null;
     }
 
+    /**
+     * 补全链接
+     * 根据Html的规则 /开头的前面只接域名 ，非/开头的前面接当前页上一级目录的url
+     *
+     * @param url 当前页面中找到的url 及要修复的url
+     * @param pageUrl 当前页面的url
+     * @return
+     */
+    public static String repairUrl(String url,String pageUrl){
+        if (url!=null && !"".equals(url)){
+            if (!isHttpURL(url) && pageUrl!=null && !"".equals(pageUrl)) {
+                if (url.startsWith("/")) {
+                    Pattern pattern = Pattern.compile("https?:\\/\\/[\\w\\.:-]+");
+                    Matcher matcher = pattern.matcher(pageUrl);
+                    if (matcher.find()) {
+                        url = matcher.group() + url;
+                    }
+                } else {
+                    int index = pageUrl.lastIndexOf("/");
+                    if (index >= 0) {
+                        url = pageUrl.substring(0, index) + "/" + url;
+                    }
+                }
+            }
+            return url;
+        }
+        return "";
+    }
 
-    private void find(Element element, KeyElement keyElement, Action action, String var) {
+    /**
+     * 验证是否是完整的网址
+     *
+     * @param url
+     * @return
+     */
+    public static boolean isHttpURL(String url) {
+
+        if (url==null || "".equals(url))
+            return false;
+
+        String str = "(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
+        Pattern p = Pattern.compile(str);
+        Matcher m = p.matcher(url);
+
+        return m.matches();
+
+    }
+
+
+    private void find(Element element, KeyElement keyElement, Page page, String var) {
 
         //在整个 keyElement 链中最多只能有一个 isList;
         if (keyElement.isList()) {
             //当前去查找的是列表，然后dispose去处理列表下边的事（后边的keyElement只会按唯一处理）
             //延伸 keyelement 链被这里截获 dispose中使用 findRecursion 继续延伸
-            dispose(findElements(element, keyElement), keyElement, action, var);
+            dispose(findElements(element, keyElement), keyElement, page, var);
         } else {
             //不是列表 是查找的一个元素
             //一个元素时不能表示前面的查找都不是list,才能进到这个判断，也就是没有action 的 list 结果生成
@@ -115,13 +168,13 @@ public class Executor {
             Element e = findElement(element, keyElement);
             if (keyElement.getKeyElement() != null) {
                 //在没有碰到 isList时，一直往里延伸 keyelement 链
-                find(e, keyElement.getKeyElement(), action, var);
+                find(e, keyElement.getKeyElement(), page, var);
             } else {
                 //如果没有next keyelement
                 //找到后就是结果
-                createActionResults(action, 1);
+                createActionResults(page, 1);
                 String str = getResult(e, keyElement.getRelationship(), keyElement.getKeyElementResult());
-                updateActionResults(action, 0, var, str);
+                updateActionResults(page, 0, var, str);
             }
         }
     }
@@ -286,23 +339,23 @@ public class Executor {
     /**
      * 生成 Action 内的results ，如果没有的话
      *
-     * @param action
+     * @param page
      * @param length
      */
-    private void createActionResults(Action action, int length) {
-        if (action.getResults() == null) {
+    private void createActionResults(Page page, int length) {
+        if (page!=null && page.getAction()!= null && page.getAction().getResults() == null) {
             List<Result> results = new ArrayList<>();
             for (int i = 0; i < length; i++) {
                 results.add(new Result());
             }
-            action.setResults(results);
+            page.getAction().setResults(results);
         }
     }
 
     /**
      * 更新 Action 内的results
      *
-     * @param action
+     * @param page
      * @param position results 的下标
      * @param var      results Result对应的变量
      * @param result   查找的结果
@@ -310,17 +363,20 @@ public class Executor {
      * @see Result#VAR_LINK
      * @see Result#VAR_COVER
      */
-    private void updateActionResults(Action action, int position, String var, String result) {
-        if (action != null && action.getResults() != null && action.getResults().size() > position) {
+    private void updateActionResults(Page page, int position, String var, String result) {
+        if (page != null && page.getAction() != null && page.getAction().getResults() != null
+                && page.getAction().getResults().size() > position) {
             switch (var) {
                 case Result.VAR_NAME:
-                    action.getResults().get(position).setName(result);
+                    page.getAction().getResults().get(position).setName(result);
                     break;
                 case Result.VAR_LINK:
-                    action.getResults().get(position).setLink(new Url(result));
+                    page.getAction().getResults().get(position).setLink(new Url(result));
+                    page.getAction().getResults().get(position).setFindPageUrl(page.getUrl());
                     break;
                 case Result.VAR_COVER:
-                    action.getResults().get(position).setCover(new Url(result));
+                    page.getAction().getResults().get(position).setCover(new Url(result));
+                    page.getAction().getResults().get(position).setFindPageUrl(page.getUrl());
                     break;
             }
         }
@@ -332,12 +388,12 @@ public class Executor {
      *
      * @param elements
      * @param keyElement
-     * @param action
+     * @param page
      * @param var
      */
-    private void dispose(Elements elements, KeyElement keyElement, Action action, String var) {
+    private void dispose(Elements elements, KeyElement keyElement, Page page, String var) {
         if (elements != null) {
-            createActionResults(action, elements.size());
+            createActionResults(page, elements.size());
             for (int i = 0; i < elements.size(); i++) {
                 String str = null;
                 if (keyElement.getKeyElement() != null) {
@@ -345,7 +401,7 @@ public class Executor {
                 } else {
                     str = getResult(elements.get(i), keyElement.getRelationship(), keyElement.getKeyElementResult());
                 }
-                updateActionResults(action, i, var, str);
+                updateActionResults(page, i, var, str);
             }
 
         }

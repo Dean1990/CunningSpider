@@ -12,7 +12,7 @@ public class Result implements Serializable {
     Url link;
     Url cover;
 
-
+    String findPageUrl;//得到该结果的查找页面 ，主要用于反盗链和补齐以相对地址方式链接
 
     public String getName() {
         return name;
@@ -38,12 +38,21 @@ public class Result implements Serializable {
         this.cover = cover;
     }
 
+    public String getFindPageUrl() {
+        return findPageUrl;
+    }
+
+    public void setFindPageUrl(String findPageUrl) {
+        this.findPageUrl = findPageUrl;
+    }
+
     @Override
     public String toString() {
         return "Result{" +
                 "name='" + name + '\'' +
-                ", link='" + link + '\'' +
-                ", cover='" + cover + '\'' +
+                ", link=" + link +
+                ", cover=" + cover +
+                ", findPageUrl='" + findPageUrl + '\'' +
                 '}';
     }
 }
