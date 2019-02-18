@@ -60,13 +60,26 @@ public class Executor {
             List<Result> results = page.getLastResults();
 
             if (results != null) {
-                //对Result.link 去重
-                List<String> urlTable = new ArrayList<>();
+                //对Result.link cover 去重
+                //linkcover
+                List<String> keyTable = new ArrayList<>();
                 for (int i = results.size()-1;i>=0;i--){
-                    if (urlTable.contains(results.get(i).getLink().getUrl())){
-                        results.remove(i);
-                    }else {
-                        urlTable.add(results.get(i).getLink().getUrl());
+                    if (results.get(i)!=null) {
+                        String key = "";
+                        if (results.get(i).getLink()!=null)
+                            key += results.get(i).getLink().getUrl();
+                        if (results.get(i).getCover()!=null)
+                            key += results.get(i).getCover().getUrl();
+                        if (!"".equals(key)) {
+                            if (keyTable.contains(key)) {
+                                results.remove(i);
+                            } else {
+                                keyTable.add(key);
+                            }
+                        }else {
+                            //如果link 和 cover 的链接都没有
+                            //可能有这种需求，所以不能直接删除
+                        }
                     }
                 }
                 //加头信息 补全Url
