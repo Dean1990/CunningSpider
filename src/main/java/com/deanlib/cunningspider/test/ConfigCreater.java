@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.deanlib.cunningspider.description.Site;
 import com.deanlib.cunningspider.test.app.AppInfo;
 import com.deanlib.cunningspider.test.app.Config;
-import com.deanlib.cunningspider.test.description.COM_27220;
-import com.deanlib.cunningspider.test.description.COM_MM131;
-import com.deanlib.cunningspider.test.description.COM_MZITU;
+import com.deanlib.cunningspider.test.description.CC_UMEI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,7 @@ public class ConfigCreater {
         List<Site> sites = new ArrayList<>();
 //        sites.add(new COM_MZITU());
 //        sites.add(new COM_MM131());
-        sites.add(new COM_27220());
+        sites.add(new CC_UMEI());
 
         AppInfo appInfo = new AppInfo(1).setVersionMsg("第一个版本");
 

@@ -2,7 +2,7 @@ package com.deanlib.cunningspider.test;
 
 import com.deanlib.cunningspider.description.*;
 import com.deanlib.cunningspider.rule.Executor;
-import com.deanlib.cunningspider.test.description.COM_27220;
+import com.deanlib.cunningspider.test.description.CC_UMEI;
 import com.deanlib.cunningspider.test.description.COM_MZITU;
 
 public class Test {
@@ -10,8 +10,8 @@ public class Test {
     public static void main(String[] args) {
         Executor executor = new Executor();
         try {
-            Site site = new COM_MZITU();
-            PageResult pageResult = executor.excute(site.getList(), 10000,null,site.getCoverHeaders());
+            Site site = new CC_UMEI();
+            PageResult pageResult = executor.excute(site.getResource(), 10000,null,site.getCoverHeaders());
             if (pageResult!=null && pageResult.getResults()!=null) {
                 for (Result result : pageResult.getResults()) {
                     System.out.println(result);
