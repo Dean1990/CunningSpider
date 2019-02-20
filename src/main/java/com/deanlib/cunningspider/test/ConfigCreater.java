@@ -5,6 +5,8 @@ import com.deanlib.cunningspider.description.Site;
 import com.deanlib.cunningspider.test.app.AppInfo;
 import com.deanlib.cunningspider.test.app.Config;
 import com.deanlib.cunningspider.test.description.CC_UMEI;
+import com.deanlib.cunningspider.test.description.COM_MM131;
+import com.deanlib.cunningspider.test.description.COM_MZITU;
 
 import java.util.ArrayList;
 import java.util.List;
