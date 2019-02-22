@@ -15,7 +15,7 @@ public class CC_UMEI extends Site {
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ID,"ArticleId0"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"alt"))),
                 null,
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ID,"ArticleId0"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")))
-        ))).setNextPageLink(new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ID,"ArticleId0"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"a"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href")))));
+        ))).setNextPageLink(new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"NewPages"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TEXT,"下一页"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href")))));
 
         setRelated(new Page("http://www.umei.cc/p/gaoqing/xiuren_VIP/74501.htm",new Action(new Key(
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"Pix-box"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"title")).setRelationship(new Relationship(Relationship.RELATION_SENIOR)),

@@ -16,11 +16,11 @@ public class ConfigCreater {
     public static void main(String[] args) {
 
         List<Site> sites = new ArrayList<>();
-//        sites.add(new COM_MZITU());
-//        sites.add(new COM_MM131());
+        sites.add(new COM_MZITU());
+        sites.add(new COM_MM131());
         sites.add(new CC_UMEI());
 
-        AppInfo appInfo = new AppInfo(1).setVersionMsg("第一个版本");
+        AppInfo appInfo = new AppInfo(1).setVersionMsg("First version");
 
         Config config = new Config(1,appInfo,sites);
 
