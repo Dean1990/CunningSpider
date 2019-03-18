@@ -23,8 +23,8 @@ public class COM_MM131 extends Site {
                         ,new KeyElementResult(KeyElementResult.RESULT_TYPE_TEXT)),
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ATTRIBUTE,"href",
                         "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html"),
-                        new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href"))
-                ,new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ATTRIBUTE,"href",
+                        new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href")) ,
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ATTRIBUTE,"href",
                 "http:\\/\\/www\\.mm131\\.com\\/\\w+\\/\\d+\\.html"),
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),
                         new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")))).setList(true))));
