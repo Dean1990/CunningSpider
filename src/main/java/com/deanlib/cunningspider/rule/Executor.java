@@ -96,8 +96,10 @@ public class Executor {
                             result.getCover().setUrl(repairUrl(result.getCover().getUrl(),result.getFindPageUrl()));
                         }
                     }
-                    result.getLink().setUrl(repairUrl(result.getLink().getUrl(),result.getFindPageUrl()));
-                    result.getCover().setUrl(repairUrl(result.getCover().getUrl(),result.getFindPageUrl()));
+                    if (result.getLink()!=null && result.getLink().getUrl()!=null)
+                        result.getLink().setUrl(repairUrl(result.getLink().getUrl(),result.getFindPageUrl()));
+                    if (result.getCover()!=null && result.getCover().getUrl()!=null)
+                        result.getCover().setUrl(repairUrl(result.getCover().getUrl(),result.getFindPageUrl()));
                 }
                 PageResult pageResult = new PageResult();
                 pageResult.setResults(results);
