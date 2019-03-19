@@ -1,6 +1,8 @@
 package com.deanlib.cunningspider.description;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,5 +86,12 @@ public class Site extends Description {
         if (coverHeaders == null)
             coverHeaders = new HashMap<>();
         coverHeaders.put(key,value);
+    }
+
+    @JSONField(serialize = false)
+    public void setListPageUrl(String url){
+        if (url!=null && !"".equals(url) && list!=null){
+            list.setUrl(url);
+        }
     }
 }

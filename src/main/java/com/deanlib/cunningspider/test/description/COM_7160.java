@@ -5,7 +5,7 @@ import com.deanlib.cunningspider.description.*;
 public class COM_7160 extends Site {
 
     public COM_7160(){
-        setList(new Page("https://www.7160.com/rentiyishu/",new Action(new Key(
+        setList(new Page("https://www.7160.com/xiaohua/",new Action(new Key(
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"news_bom-left"),
                         new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"li"),
                                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"a"),
