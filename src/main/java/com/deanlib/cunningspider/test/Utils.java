@@ -17,12 +17,20 @@ public class Utils {
                 "max-age=0\n" +
                 "Connection\t\n" +
                 "keep-alive\n" +
+                "Cookie\t\n" +
+                "Hm_lvt_c87959b92e43d58c8a26e9b…8c8a26e9b70e5a6795=1553161397\n" +
                 "Host\t\n" +
-                "img.gsdlcn.com\n" +
+                "pic.qqtn.com\n" +
+                "If-Modified-Since\t\n" +
+                "Tue, 20 Mar 2018 08:37:07 GMT\n" +
+                "If-None-Match\t\n" +
+                "\"EE6B17A99F92D62BB7F57F2400BA9C21\"\n" +
                 "Referer\t\n" +
-                "https://www.7160.com/rentiyishu/59577/\n" +
+                "https://www.qqtn.com/article/article_121388_1.html\n" +
+                "TE\t\n" +
+                "Trailers\n" +
                 "User-Agent\t\n" +
-                "Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/65.0";
+                "Mozilla/5.0 (Macintosh; Intel …) Gecko/20100101 Firefox/65.0";
         String code = createCode_addCoverHeader(requestHeaderTransform(reqHeader));
         System.out.println(code);
     }
