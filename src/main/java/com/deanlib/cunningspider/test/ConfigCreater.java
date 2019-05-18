@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.deanlib.cunningspider.description.Site;
 import com.deanlib.cunningspider.test.app.AppInfo;
 import com.deanlib.cunningspider.test.app.Config;
-import com.deanlib.cunningspider.test.description.CC_UMEI;
-import com.deanlib.cunningspider.test.description.COM_7160;
-import com.deanlib.cunningspider.test.description.COM_MM131;
-import com.deanlib.cunningspider.test.description.COM_MZITU;
+import com.deanlib.cunningspider.test.description.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +19,8 @@ public class ConfigCreater {
             "http://www.umei.cc/p/gaoqing/xiuren_VIP/",
             "https://www.7160.com/rentiyishu/",
             "http://www.mm131.com/",
-            "https://www.mzitu.com"
+            "https://www.mzitu.com",
+            "http://www.18rtys.com/"
     };
     static String[] bellecUrls = {
             "https://www.7160.com/xiaohua/"
@@ -38,6 +36,7 @@ public class ConfigCreater {
         descMap.put("www.mm131.com",new COM_MM131());
         descMap.put("www.umei.cc",new CC_UMEI());
         descMap.put("www.7160.com",new COM_7160());
+        descMap.put("www.18rtys.com",new COM_18RTYS());
 
         List<Site> sites = new ArrayList<>();
         for (String url : urls){
