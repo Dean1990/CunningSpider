@@ -20,10 +20,19 @@ public class ConfigCreater {
             "https://www.7160.com/rentiyishu/",
             "http://www.mm131.com/",
             "https://www.mzitu.com",
-            "http://www.18rtys.com/"
+            "http://www.18rtys.com/",
+            "http://www.tu11.com/meituisiwatupian/",
+            "http://www.tu11.com/xingganmeinvxiezhen/",
+            "http://www.tu11.com/gaoxiaotupian/",
+            "http://www.tu11.com/qingchunmeinvxiezhen/"
     };
     static String[] bellecUrls = {
-            "https://www.7160.com/xiaohua/"
+            "https://www.7160.com/xiaohua/",
+            "http://www.tu11.com/shenghuomeinvzipai/"
+    };
+
+    static String[] testUrls = {
+            "http://www.tu11.com/shenghuomeinvzipai/"
     };
 
     static Map<String,Site> descMap = new HashMap<>();
@@ -37,6 +46,7 @@ public class ConfigCreater {
         descMap.put("www.umei.cc",new CC_UMEI());
         descMap.put("www.7160.com",new COM_7160());
         descMap.put("www.18rtys.com",new COM_18RTYS());
+        descMap.put("www.tu11.com",new COM_TU11());
 
         List<Site> sites = new ArrayList<>();
         for (String url : urls){

@@ -17,18 +17,12 @@ public class Utils {
                 "max-age=0\n" +
                 "Connection\t\n" +
                 "keep-alive\n" +
-                "Cookie\t\n" +
-                "Hm_lvt_783b68ea370f805c12b86d3…5c12b86d386ceda3a8=1558161309\n" +
                 "Host\t\n" +
-                "www.18rtys.com\n" +
-                "If-Modified-Since\t\n" +
-                "Sat, 18 May 2019 04:16:40 GMT\n" +
-                "If-None-Match\t\n" +
-                "\"5cdf8728-162ac\"\n" +
+                "img15.haotuwu.com:8080\n" +
                 "Referer\t\n" +
-                "http://www.18rtys.com/omrtys/1040.html\n" +
+                "http://www.tu11.com/shenghuomeinvzipai/2018/10861_18.html\n" +
                 "User-Agent\t\n" +
-                "Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/66.0";
+                "Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/67.0";
         String code = createCode_addCoverHeader(requestHeaderTransform(reqHeader));
         System.out.println(code);
     }
