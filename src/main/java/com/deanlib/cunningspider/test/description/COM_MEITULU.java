@@ -6,13 +6,12 @@ public class COM_MEITULU extends Site {
 
     public COM_MEITULU(){
         setList(new Page("https://www.meitulu.com/",new Action(new Key(
-//                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"p_title"),
-//                        new KeyElementResult(KeyElementResult.RESULT_TYPE_TEXT))
-//                        .setRelationship(new Relationship(Relationship.RELATION_JUNIOR)),
-//                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"p_title"),
-//                        new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href"))
-//                        .setRelationship(new Relationship(Relationship.RELATION_JUNIOR)),
-                null,null,
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"p_title"),
+                        new KeyElementResult(KeyElementResult.RESULT_TYPE_TEXT))
+                        .setRelationship(new Relationship(Relationship.RELATION_JUNIOR)),
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"p_title"),
+                        new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href"))
+                        .setRelationship(new Relationship(Relationship.RELATION_JUNIOR)),
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"p_title"),
                         new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),
                                 new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")))
@@ -20,24 +19,25 @@ public class COM_MEITULU extends Site {
         ).setList(true))));
         setResource(new Page("https://www.meitulu.com/item/6713.html",new Action(new Key(
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"content_img"),
-                        new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"alt")),
+                        new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"alt")).setList(true),
                 null,
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"content_img"),
                         new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")).setList(true)
         ))).setNextPageLink(new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_ID,"pages"),new KeyElement(
-                new KeyElementFind(KeyElementFind.FIND_TYPE_INDEX,"-1"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href")
+                new KeyElementFind(KeyElementFind.FIND_TYPE_TEXT,"下一页"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href")
         ))));
         setRelated(new Page("https://www.meitulu.com/item/6713.html",new Action(new Key(
-                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"boxs"),new KeyElement(
-                        new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_TEXT)
-                ).setList(true)).setList(true),
-                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"boxs"),new KeyElement(
-                        new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href")
-                ).setRelationship(new Relationship(Relationship.RELATION_SENIOR)).setList(true)).setList(true),
-                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"boxs"),new KeyElement(
-                        new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")
-                ).setList(true)).setList(true)
-        ))));
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"p_title"),
+                        new KeyElementResult(KeyElementResult.RESULT_TYPE_TEXT))
+                        .setRelationship(new Relationship(Relationship.RELATION_JUNIOR)),
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"p_title"),
+                        new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"href"))
+                        .setRelationship(new Relationship(Relationship.RELATION_JUNIOR)),
+                new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"p_title"),
+                        new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),
+                                new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")))
+                        .setRelationship(new Relationship(Relationship.RELATION_SENIOR))
+        ).setList(true))));
 
         addCoverHeader("Accept","image/webp,*/*");
         addCoverHeader("Connection","keep-alive");

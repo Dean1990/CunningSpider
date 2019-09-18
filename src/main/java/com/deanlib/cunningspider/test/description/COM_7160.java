@@ -43,12 +43,11 @@ public class COM_7160 extends Site {
                                 new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")).setList(true))
         ))));
 
-        addCoverHeader("Accept","image/webp,*/*");
-        addCoverHeader("Cache-Control","max-age=0");
+        addCoverHeader("Accept","text/html,application/xhtml+xm…plication/xml;q=0.9,*/*;q=0.8");
+        addCoverHeader("Upgrade-Insecure-Requests","1");
         addCoverHeader("Connection","keep-alive");
-        addCoverHeader("Referer","https://www.7160.com");
-        addCoverHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/65.0");
-        addCoverHeader("Host","img.gsdlcn.com");
+        addCoverHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/69.0");
+        addCoverHeader("Host","img.lovebuy99.com");
         addCoverHeader("Accept-Encoding","gzip, deflate, br");
         addCoverHeader("Accept-Language","zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
     }

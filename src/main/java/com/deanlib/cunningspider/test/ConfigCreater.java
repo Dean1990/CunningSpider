@@ -39,7 +39,8 @@ public class ConfigCreater {
             "https://www.520mm.co/category/zhainanshe/",
             "https://www.520mm.co/category/luyilu/",
             "https://www.520mm.co/category/luyilu/",
-            "https://www.520mm.co/category/miitao/"
+            "https://www.520mm.co/category/miitao/",
+            "https://www.meitulu.com/"
     };
     static String[] bellecUrls = {
             "https://www.7160.com/xiaohua/",
@@ -63,6 +64,7 @@ public class ConfigCreater {
         descMap.put("sjd226.com",new NET_UC96XX());
         descMap.put("uc96xx.net",new NET_UC96XX());
         descMap.put("www.520mm.co",new NET_UC96XX());
+        descMap.put("www.meitulu.com",new COM_MEITULU());
 
         //做了防爬虫，可以抓不到信息，但不能访问 待解决 TODO
 //        descMap.put("www.mzitu.com",new COM_MZITU());

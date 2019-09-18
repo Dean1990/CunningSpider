@@ -238,7 +238,7 @@ public class Executor {
         switch (keyElement.getKeyElementFind().getFindType()) {
             case KeyElementFind.FIND_TYPE_ID:
 //                    System.out.println("id=" + keyElement.getValue());
-                e = element.getElementById(keyElement.getKeyElementFind().getValue());
+                e = disposeRelationship(element.getElementById(keyElement.getKeyElementFind().getValue()),keyElement.getRelationship());
                 break;
             case KeyElementFind.FIND_TYPE_TAG:
 //                    System.out.println("tag=" + keyElement.getValue());
@@ -250,7 +250,10 @@ public class Executor {
                 break;
             case KeyElementFind.FIND_TYPE_INDEX:
 //                    System.out.println("index=" + keyElement.getValue());
-                e = disposeFindElement(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getKeyElementFind().getValue())), keyElement);
+                int index = Integer.valueOf(keyElement.getKeyElementFind().getValue());
+                if (index < 0)
+                    index = element.childNodeSize() + index;
+                e = disposeFindElement(element.getElementsByIndexEquals(index), keyElement);
                 break;
             case KeyElementFind.FIND_TYPE_ATTRIBUTE:
                 if (keyElement.getKeyElementFind().getFindAttrKey() != null) {
@@ -286,10 +289,6 @@ public class Executor {
 
         Elements es = null;
         switch (keyElement.getKeyElementFind().getFindType()) {
-//                case KeyElement.FIND_TYPE_ID:
-////                    System.out.println("id=" + keyElement.getValue());
-//                    es = element.getElementById(keyElement.getValue());
-//                    break;
             case KeyElementFind.FIND_TYPE_TAG:
 //                    System.out.println("tag=" + keyElement.getValue());
                 es = disposeFindElements(element.getElementsByTag(keyElement.getKeyElementFind().getValue()), keyElement);
@@ -299,8 +298,10 @@ public class Executor {
                 es = disposeFindElements(element.getElementsByClass(keyElement.getKeyElementFind().getValue()), keyElement);
                 break;
             case KeyElementFind.FIND_TYPE_INDEX:
-//                    System.out.println("index=" + keyElement.getValue());
-                es = disposeFindElements(element.getElementsByIndexEquals(Integer.valueOf(keyElement.getKeyElementFind().getValue())), keyElement);
+                int index = Integer.valueOf(keyElement.getKeyElementFind().getValue());
+                if (index < 0)
+                    index = element.childNodeSize() + index;
+                es = disposeFindElements(element.getElementsByIndexEquals(index), keyElement);
                 break;
             case KeyElementFind.FIND_TYPE_ATTRIBUTE:
                 if (keyElement.getKeyElementFind().getFindAttrKey() != null) {
@@ -321,6 +322,30 @@ public class Executor {
         return es;
     }
 
+    /**
+     * 处理 Relationship 相关
+     * @param element
+     * @param relationship
+     * @return
+     */
+    private Element disposeRelationship(Element element,Relationship relationship){
+        if (relationship != null) {
+            switch (relationship.getRelation()) {
+                case Relationship.RELATION_SENIOR:
+                    element = element.parent();
+                    break;
+                case Relationship.RELATION_JUNIOR:
+                    int index = relationship.getIndex();
+                    if (index < 0)
+                        index = element.childNodeSize() + index;
+                    if (index < element.childNodeSize() && index >= 0)
+                        element = element.child(relationship.getIndex());
+                    break;
+            }
+        }
+        return element;
+    }
+
     private Element disposeFindElement(Elements elements, KeyElement keyElement) {
         if (elements != null) {
             if (keyElement.getStart() < elements.size()) {
@@ -329,7 +354,7 @@ public class Executor {
                     index = elements.size() + index;
                 }
                 if (index < elements.size() && index >= 0)
-                    return elements.get(index);
+                    return disposeRelationship(elements.get(index),keyElement.getRelationship());
                 else
                     return null;
             }
@@ -345,13 +370,22 @@ public class Executor {
             }
             int endIndex = index + keyElement.getLength();
             if (index < elements.size() && index >= 0) {
-                return new Elements(elements.subList(index
-                        , (endIndex > elements.size() || endIndex <= 0) ? elements.size() : endIndex));
+                Elements es = new Elements();
+                List<Element> list = elements.subList(index, (endIndex > elements.size() || endIndex <= 0) ? elements.size() : endIndex);
+                if (keyElement.getRelationship()!=null){
+                    for (Element e : list){
+                        es.add(disposeRelationship(e,keyElement.getRelationship()));
+                    }
+                }else {
+                    es.addAll(list);
+                }
+
+                return es;
             } else {
-                return elements;
+                return null;
             }
         }
-        return elements;
+        return null;
     }
 
     /**
@@ -457,21 +491,21 @@ public class Executor {
             throw new NullPointerException("KeyElementResult is null");
         }
         String result = null;
-        if (relationship != null) {
-            switch (relationship.getRelation()) {
-                case Relationship.RELATION_SENIOR:
-                    element = element.parent();
-                    break;
-                case Relationship.RELATION_JUNIOR:
-                    int index = relationship.getIndex();
-                    if (index < 0)
-                        index = element.childNodeSize() + index;
-                    if (index < element.childNodeSize() && index >= 0)
-                        element = element.child(relationship.getIndex());
-                    break;
-            }
-            result = getResult(element, relationship.getRelationship(), keyElementResult);
-        } else {
+//        if (relationship != null) {
+//            switch (relationship.getRelation()) {
+//                case Relationship.RELATION_SENIOR:
+//                    element = element.parent();
+//                    break;
+//                case Relationship.RELATION_JUNIOR:
+//                    int index = relationship.getIndex();
+//                    if (index < 0)
+//                        index = element.childNodeSize() + index;
+//                    if (index < element.childNodeSize() && index >= 0)
+//                        element = element.child(relationship.getIndex());
+//                    break;
+//            }
+//            result = getResult(element, relationship.getRelationship(), keyElementResult);
+//        } else {
             switch (keyElementResult.getResultType()) {
                 case KeyElementResult.RESULT_TYPE_HTML:
                     result = element.html();
@@ -486,7 +520,7 @@ public class Executor {
                     if (keyElementResult.getResultAttrKey() != null)
                         result = element.attr(keyElementResult.getResultAttrKey());
                     break;
-            }
+//            }
         }
 //        System.out.println("find result : " + result);
         return result;

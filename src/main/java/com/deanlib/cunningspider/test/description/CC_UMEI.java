@@ -23,22 +23,11 @@ public class CC_UMEI extends Site {
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"Pix-box"),new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")))
         ).setList(true))));
 
-//        addCoverHeader("Accept","image/webp,*/*");
-//        addCoverHeader("Accept-Encoding","gzip, deflate");
-//        addCoverHeader("Accept-Language","zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
-//        addCoverHeader("Cache-Control","max-age=0");
-//        addCoverHeader("Connection","keep-alive");
-//        addCoverHeader("Cookie","Hm_lvt_c605a31292b623d214d012e…d214d012ec2a737685=1550590300");
-//        addCoverHeader("Host","i1.umei.cc");
-//        addCoverHeader("If-Modified-Since","Wed, 13 Feb 2019 20:39:56 GMT");
-//        addCoverHeader("If-None-Match","\"5c64809c-909b3\"");
-//        addCoverHeader("Referer","http://www.umei.cc");
-//        addCoverHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/65.0");
-        addCoverHeader("Accept","image/webp,*/*");
+        addCoverHeader("Accept","text/html,application/xhtml+xm…plication/xml;q=0.9,*/*;q=0.8");
+        addCoverHeader("Upgrade-Insecure-Requests","1");
         addCoverHeader("Connection","keep-alive");
-        addCoverHeader("Referer","http://www.umei.cc/p/gaoqing/xiuren_VIP/180253.htm");
-        addCoverHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/66.0");
-        addCoverHeader("Host","i1.whymtj.com");
+        addCoverHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/69.0");
+        addCoverHeader("Host","i1.zhiaigou.com");
         addCoverHeader("Accept-Encoding","gzip, deflate");
         addCoverHeader("Accept-Language","zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
 

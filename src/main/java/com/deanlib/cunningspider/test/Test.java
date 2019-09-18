@@ -10,7 +10,7 @@ public class Test {
         Executor executor = new Executor();
         try {
             Site site = new COM_MEITULU();
-            PageResult pageResult = executor.excute(site.getList(), 10000,null,site.getCoverHeaders());
+            PageResult pageResult = executor.excute(site.getRelated(), 10000,null,site.getCoverHeaders());
             if (pageResult!=null && pageResult.getResults()!=null) {
                 for (Result result : pageResult.getResults()) {
                     System.out.println(result);
