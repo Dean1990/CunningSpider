@@ -26,4 +26,12 @@ public class PageResult implements Serializable {
     public void setNextPageLink(Url nextPageLink) {
         this.nextPageLink = nextPageLink;
     }
+
+    @Override
+    public String toString() {
+        return "PageResult{" +
+                "results=" + results +
+                ", nextPageLink=" + nextPageLink +
+                '}';
+    }
 }

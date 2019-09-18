@@ -10,19 +10,17 @@ public class Utils {
         String reqHeader = "Accept\t\n" +
                 "image/webp,*/*\n" +
                 "Accept-Encoding\t\n" +
-                "gzip, deflate\n" +
+                "gzip, deflate, br\n" +
                 "Accept-Language\t\n" +
                 "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2\n" +
-                "Cache-Control\t\n" +
-                "max-age=0\n" +
                 "Connection\t\n" +
                 "keep-alive\n" +
                 "Host\t\n" +
-                "img15.haotuwu.com:8080\n" +
+                "mtl.ttsqgs.com\n" +
                 "Referer\t\n" +
-                "http://www.tu11.com/shenghuomeinvzipai/2018/10861_18.html\n" +
+                "https://www.meitulu.com/\n" +
                 "User-Agent\t\n" +
-                "Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/67.0";
+                "Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/69.0";
         String code = createCode_addCoverHeader(requestHeaderTransform(reqHeader));
         System.out.println(code);
     }

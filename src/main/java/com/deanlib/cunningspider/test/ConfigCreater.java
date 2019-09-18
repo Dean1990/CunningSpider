@@ -24,7 +24,22 @@ public class ConfigCreater {
             "http://www.tu11.com/meituisiwatupian/",
             "http://www.tu11.com/xingganmeinvxiezhen/",
             "http://www.tu11.com/gaoxiaotupian/",
-            "http://www.tu11.com/qingchunmeinvxiezhen/"
+            "http://www.tu11.com/qingchunmeinvxiezhen/",
+            "https://sjd226.com/zhaifuli/",
+            "https://sjd226.com/zhainanshe/",
+            "https://sjd226.com/luyilu/",
+            "https://sjd226.com/MiiTao/",
+            "https://uc96xx.net/tuinvlang/",
+            "https://uc96xx.net/meiyuanguan/",
+            "https://uc96xx.net/youguowang/",
+            "https://uc96xx.net/AISSaisi/",
+            "https://uc96xx.net/meiyanshe/",
+            "https://uc96xx.net/luyilu/",
+            "https://www.520mm.co/category/zhaifuli/",
+            "https://www.520mm.co/category/zhainanshe/",
+            "https://www.520mm.co/category/luyilu/",
+            "https://www.520mm.co/category/luyilu/",
+            "https://www.520mm.co/category/miitao/"
     };
     static String[] bellecUrls = {
             "https://www.7160.com/xiaohua/",
@@ -41,12 +56,17 @@ public class ConfigCreater {
 
         String[] urls = belleUrls;
 
-        descMap.put("www.mzitu.com",new COM_MZITU());
-        descMap.put("www.mm131.com",new COM_MM131());
         descMap.put("www.umei.cc",new CC_UMEI());
         descMap.put("www.7160.com",new COM_7160());
         descMap.put("www.18rtys.com",new COM_18RTYS());
         descMap.put("www.tu11.com",new COM_TU11());
+        descMap.put("sjd226.com",new NET_UC96XX());
+        descMap.put("uc96xx.net",new NET_UC96XX());
+        descMap.put("www.520mm.co",new NET_UC96XX());
+
+        //做了防爬虫，可以抓不到信息，但不能访问 待解决 TODO
+//        descMap.put("www.mzitu.com",new COM_MZITU());
+//        descMap.put("www.mm131.com",new COM_MM131());
 
         List<Site> sites = new ArrayList<>();
         for (String url : urls){

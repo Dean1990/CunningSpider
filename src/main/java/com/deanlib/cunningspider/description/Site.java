@@ -94,4 +94,19 @@ public class Site extends Description {
             list.setUrl(url);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Site{" +
+                "catalog=" + catalog +
+                ", list=" + list +
+                ", resource=" + resource +
+                ", related=" + related +
+                ", linkHeaders=" + linkHeaders +
+                ", coverHeaders=" + coverHeaders +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", desc='" + desc + '\'' +
+                '}';
+    }
 }

@@ -9,11 +9,20 @@ import org.jsoup.select.Elements;
 import sun.security.krb5.internal.PAData;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Executor {
+
+    static Logger l;
+
+    public Executor(){
+        l = Logger.getLogger("CS Executor");
+    }
 
     public PageResult excute(Page page, int timeout) throws IOException {
         return excute(page, timeout, null, null);
@@ -30,7 +39,25 @@ public class Executor {
 
 //        System.out.println("Excute url:" + page.getUrl() + "  timeout:" + timeout);
 //        Document doc = Jsoup.parse(new URL(page.getUrl()), timeout);
-        Connection connect = Jsoup.connect(page.getUrl());
+        //解决重定向问题
+        String url = page.getUrl();
+        l.info("Page url:"+url);
+        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("accept", "*/*");
+        conn.setRequestProperty("connection", "Keep-Alive");
+        // 必须设置false，否则会自动redirect到Location的地址
+        conn.setInstanceFollowRedirects(false);
+        //获取Location地址
+        conn.connect();
+        int code = conn.getResponseCode();
+        if (code == 302){
+            url = conn.getHeaderField("Location");
+            l.info("Redirect page url:"+url);
+        }
+
+        l.info("Jsoup connect url:"+url);
+        Connection connect = Jsoup.connect(url);
         if (linkHeaders != null) {
             connect.headers(linkHeaders);
         }
@@ -107,10 +134,10 @@ public class Executor {
                 if (page.getNextPageLink() != null) {
                     String nextPageLink = repairUrl(findRecursion(doc, page.getNextPageLink()),page.getUrl());
                     if (nextPageLink != null && !"".equals(nextPageLink)) {
-                        Url url = new Url(nextPageLink);
+                        Url nplUrl = new Url(nextPageLink);
                         if (linkHeaders != null)
-                            url.setHeaders(linkHeaders);
-                        pageResult.setNextPageLink(url);
+                            nplUrl.setHeaders(linkHeaders);
+                        pageResult.setNextPageLink(nplUrl);
                     }
                 }
                 return pageResult;

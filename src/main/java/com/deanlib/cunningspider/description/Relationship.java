@@ -48,4 +48,13 @@ public class Relationship implements Serializable {
         this.relationship = relationship;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Relationship{" +
+                "relation='" + relation + '\'' +
+                ", index=" + index +
+                ", relationship=" + relationship +
+                '}';
+    }
 }

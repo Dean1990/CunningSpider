@@ -69,4 +69,16 @@ public class Page extends Description{
         this.nextPageLink = nextPageLink;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Page{" +
+                "action=" + action +
+                ", next=" + next +
+                ", nextPageLink=" + nextPageLink +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", desc='" + desc + '\'' +
+                '}';
+    }
 }
