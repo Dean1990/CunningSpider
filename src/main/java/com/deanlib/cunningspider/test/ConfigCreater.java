@@ -61,9 +61,14 @@ public class ConfigCreater {
         descMap.put("www.7160.com",new COM_7160());
         descMap.put("www.18rtys.com",new COM_18RTYS());
         descMap.put("www.tu11.com",new COM_TU11());
-        descMap.put("sjd226.com",new NET_UC96XX());
+
         descMap.put("uc96xx.net",new NET_UC96XX());
-        descMap.put("www.520mm.co",new NET_UC96XX());
+        NET_UC96XX sjd226 = new NET_UC96XX();
+        sjd226.addCoverHeader("Host","www.images.zhaofulipic.com:8819");
+        descMap.put("sjd226.com",sjd226);
+        NET_UC96XX w520mm = new NET_UC96XX();
+        w520mm.addCoverHeader("Host","www.images.zhaofulipic.com:8819");
+        descMap.put("www.520mm.co",w520mm);
         descMap.put("www.meitulu.com",new COM_MEITULU());
 
         //做了防爬虫，可以抓不到信息，但不能访问 待解决 TODO
