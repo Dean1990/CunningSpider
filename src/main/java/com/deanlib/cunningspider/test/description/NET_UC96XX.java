@@ -16,7 +16,7 @@ public class NET_UC96XX extends Site {
                         new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"src")
                 ))
         ).setList(true))));
-        setResource(new Page("https://www.520mm.co/luyilu/2018/1016/892/5/",new Action(new Key(
+        setResource(new Page("https://96ff.net/luyilu/2726_5.html",new Action(new Key(
                 new KeyElement(new KeyElementFind(KeyElementFind.FIND_TYPE_CLASS,"article-content"),new KeyElement(
                         new KeyElementFind(KeyElementFind.FIND_TYPE_TAG,"img"),new KeyElementResult(KeyElementResult.RESULT_TYPE_ATTR,"alt")
                 ).setList(true)),null,

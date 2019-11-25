@@ -44,7 +44,9 @@ public class ConfigCreater {
     };
     static String[] bellecUrls = {
             "https://www.7160.com/xiaohua/",
-            "http://www.tu11.com/shenghuomeinvzipai/"
+            "http://www.tu11.com/xingganmeinvxiezhen/",
+            "http://www.tu11.com/shenghuomeinvzipai/",
+            "http://www.umei.cc/bizhitupian/meinvbizhi/"
     };
 
     static String[] testUrls = {

@@ -151,7 +151,7 @@ public class Executor {
     /**
      * 补全链接
      * 根据Html的规则 /开头的前面只接域名 ，非/开头的前面接当前页上一级目录的url
-     *
+     * 特殊情况 //开头的 url 为完整 url，//的意思是自适应 http或https协议，故，这种情况不需要做补全
      * @param url 当前页面中找到的url 及要修复的url
      * @param pageUrl 当前页面的url
      * @return
@@ -159,7 +159,15 @@ public class Executor {
     public static String repairUrl(String url,String pageUrl){
         if (url!=null && !"".equals(url)){
             if (!isHttpURL(url) && pageUrl!=null && !"".equals(pageUrl)) {
-                if (url.startsWith("/")) {
+                pageUrl = pageUrl.toLowerCase();
+                if (url.startsWith("//")) {
+                    //不需要补全
+                    if (pageUrl.startsWith("https:")){
+                        url = "https:" + url;
+                    }else {
+                        url = "http:" + url;
+                    }
+                }else if (url.startsWith("/")) {
                     Pattern pattern = Pattern.compile("https?:\\/\\/[\\w\\.:-]+");
                     Matcher matcher = pattern.matcher(pageUrl);
                     if (matcher.find()) {
