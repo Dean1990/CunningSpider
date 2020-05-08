@@ -9,7 +9,7 @@ public class Test {
     public static void main(String[] args) {
         Executor executor = new Executor();
         try {
-                Site site = new NET_UC96XX();
+                Site site = new COM_111GEI();
             PageResult pageResult = executor.excute(site.getResource(), 10000,null,site.getCoverHeaders());
             if (pageResult!=null && pageResult.getResults()!=null) {
                 for (Result result : pageResult.getResults()) {

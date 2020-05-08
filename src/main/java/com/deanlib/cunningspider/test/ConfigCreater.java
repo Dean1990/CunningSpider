@@ -29,17 +29,21 @@ public class ConfigCreater {
             "https://sjd226.com/zhainanshe/",
             "https://sjd226.com/luyilu/",
             "https://sjd226.com/MiiTao/",
-            "https://uc96xx.net/tuinvlang/",
-            "https://uc96xx.net/meiyuanguan/",
-            "https://uc96xx.net/youguowang/",
-            "https://uc96xx.net/AISSaisi/",
-            "https://uc96xx.net/meiyanshe/",
-            "https://uc96xx.net/luyilu/",
-            "https://www.520mm.co/category/zhaifuli/",
-            "https://www.520mm.co/category/zhainanshe/",
-            "https://www.520mm.co/category/luyilu/",
-            "https://www.520mm.co/category/luyilu/",
-            "https://www.520mm.co/category/miitao/",
+            "https://96ucqq.com/tuinvlang/",
+            "https://96ucqq.com/meiyuanguan/",
+            "https://96ucqq.com/youguowang/",
+            "https://96ucqq.com/AISSaisi/",
+            "https://96ucqq.com/meiyanshe/",
+            "https://96ucqq.com/luyilu/",
+            "https://qqa92.com/zhaifuli/",
+            "https://qqa92.com/luyilu/",
+            "https://qqa92.com/zhainanshe/",
+            "https://qqa92.com/MiiTao/",
+//            "https://www.520mm.co/category/zhaifuli/",
+//            "https://www.520mm.co/category/zhainanshe/",
+//            "https://www.520mm.co/category/luyilu/",
+//            "https://www.520mm.co/category/luyilu/",
+//            "https://www.520mm.co/category/miitao/",
             "https://www.meitulu.com/"
     };
     static String[] bellecUrls = {
@@ -64,9 +68,10 @@ public class ConfigCreater {
         descMap.put("www.18rtys.com",new COM_18RTYS());
         descMap.put("www.tu11.com",new COM_TU11());
 
-        descMap.put("uc96xx.net",new NET_UC96XX());
+        descMap.put("96ucqq.com",new NET_UC96XX());
+        descMap.put("qqa92.com",new NET_UC96XX());
         NET_UC96XX sjd226 = new NET_UC96XX();
-        sjd226.addCoverHeader("Host","www.images.zhaofulipic.com:8819");
+//        sjd226.addCoverHeader("Host","www.images.zhaofulipic.com:8819");
         descMap.put("sjd226.com",sjd226);
         NET_UC96XX w520mm = new NET_UC96XX();
         w520mm.addCoverHeader("Host","www.images.zhaofulipic.com:8819");

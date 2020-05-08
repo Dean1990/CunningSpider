@@ -6,7 +6,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import sun.security.krb5.internal.PAData;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -196,7 +195,7 @@ public class Executor {
         if (url==null || "".equals(url))
             return false;
 
-        String str = "(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
+        String str = "^(http|ftp|https):\\/\\/[\\S]+$";
         Pattern p = Pattern.compile(str);
         Matcher m = p.matcher(url);
 
