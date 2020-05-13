@@ -52,6 +52,16 @@ public class ConfigCreater {
             "http://www.tu11.com/shenghuomeinvzipai/",
             "http://www.umei.cc/bizhitupian/meinvbizhi/"
     };
+    static String[] bellexUrls = {
+            "https://111gai.com/p01/index.html",
+            "https://111gai.com/p02/index.html",
+            "https://111gai.com/p03/index.html",
+            "https://111gai.com/p04/index.html",
+            "https://111gai.com/p05/index.html",
+            "https://111gai.com/p06/index.html",
+            "https://111gai.com/p07/index.html",
+            "https://111gai.com/p08/index.html"
+    };
 
     static String[] testUrls = {
             "http://www.tu11.com/shenghuomeinvzipai/"
@@ -77,6 +87,7 @@ public class ConfigCreater {
         w520mm.addCoverHeader("Host","www.images.zhaofulipic.com:8819");
         descMap.put("www.520mm.co",w520mm);
         descMap.put("www.meitulu.com",new COM_MEITULU());
+        descMap.put("111gai.com",new COM_111GEI());
 
         //做了防爬虫，可以抓不到信息，但不能访问 待解决 TODO
 //        descMap.put("www.mzitu.com",new COM_MZITU());
